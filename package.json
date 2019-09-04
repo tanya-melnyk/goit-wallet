@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "develop": "nodemon app.js",
+    "dev": "nodemon app.js",
     "debug": "nodemon --inspect app.js",
     "prod": "NODE_ENV=production node app.js"
   },
