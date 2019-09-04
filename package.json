@@ -1,0 +1,36 @@
+{
+  "name": "goit-wallet-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "develop": "nodemon app.js",
+    "debug": "nodemon --inspect app.js",
+    "prod": "NODE_ENV=production node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanya-melnyk/goit-wallet.git"
+  },
+  "author": "Tetiana Melnyk <tetiana.melnyk.ua@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanya-melnyk/goit-wallet/issues"
+  },
+  "homepage": "https://github.com/tanya-melnyk/goit-wallet#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-domain": "^1.0.5",
+    "mongoose": "^5.6.11",
+    "mysql2": "^1.7.0",
+    "sequelize": "^5.18.1",
+    "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1"
+  }
+}
