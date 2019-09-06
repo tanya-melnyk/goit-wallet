@@ -16,7 +16,18 @@ module.exports = {
       where: {
         id,
       },
-      include: [{ model: Transactions, attributes: ['id', 'user_id'] }],
+      include: [
+        {
+          model: Transactions,
+          attributes: [
+            'id',
+            'transaction_type',
+            'item_name',
+            'amount',
+            'currency',
+          ],
+        },
+      ],
     });
   },
 

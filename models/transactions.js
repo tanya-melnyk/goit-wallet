@@ -3,7 +3,20 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Transactions extends Sequelize.Model {}
+  class Transactions extends Sequelize.Model {
+    render() {
+      return {
+        id: this.id,
+        userId: this.userId,
+        transactionType: this.transactionType,
+        // users: this.Users,
+        itemName: this.itemName,
+        description: this.description,
+        amount: this.amount + this.currency,
+        category: this.category,
+      };
+    }
+  }
 
   Transactions.init(
     {
