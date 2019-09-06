@@ -1,27 +1,24 @@
 {
   "development": {
-    "username": "kLtnk2xqwN",
-    "password": "Lw8Zr7l2Dv",
-    "database": "kLtnk2xqwN",
+    "username": "VAULOT615Y",
+    "password": "2q7QRqpjM1",
+    "database": "VAULOT615Y",
     "host": "remotemysql.com",
     "port": 3306,
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   }
 }

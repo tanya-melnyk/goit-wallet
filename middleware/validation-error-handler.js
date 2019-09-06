@@ -1,12 +1,11 @@
 'use strict';
 
-
-const {ValidationError} = require('sequelize');
+const { ValidationError } = require('sequelize');
 
 module.exports = function validationErrorHandler(err, req, res, next) {
   if (err instanceof ValidationError) {
-    return res.status(400).json(err);
+    return res.status(400).json(err.errors[0].message);
   }
-  
+
   next(err);
 };
