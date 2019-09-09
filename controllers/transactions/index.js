@@ -1,17 +1,17 @@
 'use strict';
 
-const { Users, Transactions } = require('../../models');
+const { User, Transaction } = require('../../models');
 
 module.exports = {
   // @route    GET /transactions/:userId
   // @desc     Get all user's transactions by user ID
   getTransactionsByUserId(userId) {
-    return Transactions.findAll({
+    return Transaction.findAll({
       where: {
         userId,
       },
       include: [
-        { model: Users, attributes: ['id', 'first_name', 'last_name'] },
+        { model: User, attributes: ['id', 'first_name', 'last_name'] },
       ],
     });
   },

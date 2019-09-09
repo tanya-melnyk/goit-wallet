@@ -12,9 +12,9 @@ const notFound = require('./middleware/not-found');
 const routes = require('./routes');
 const validationErrorHandler = require('./middleware/validation-error-handler');
 
-const PORT = config.PORT;
-
 const app = express();
+
+const PORT = config.PORT;
 
 app.use(expressDomain());
 

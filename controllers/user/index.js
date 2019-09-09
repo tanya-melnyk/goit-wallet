@@ -1,24 +1,24 @@
 'use strict';
 
-const { Users, Transactions } = require('../../models');
+const { User, Transaction } = require('../../models');
 
 module.exports = {
   // @route    POST /users
   // @desc     Create a user
   createUser(payload) {
-    return Users.create(payload);
+    return User.create(payload);
   },
 
   // @route    GET /users/:userId
   // @desc     Get user by ID
   getUserById(id) {
-    return Users.findOne({
+    return User.findOne({
       where: {
         id,
       },
       include: [
         {
-          model: Transactions,
+          model: Transaction,
           attributes: [
             'id',
             'transaction_type',
@@ -34,13 +34,13 @@ module.exports = {
   // @route    GET /users
   // @desc     Get all users
   getAllUsers() {
-    return Users.findAll();
+    return User.findAll();
   },
 
   // @route    DELETE /users/:userId
   // @desc     Delete user by ID
   deleteUserById(id) {
-    return Users.destroy({
+    return User.destroy({
       where: {
         id,
       },

@@ -3,13 +3,13 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Transactions extends Sequelize.Model {
+  class Transaction extends Sequelize.Model {
     render() {
       return {
         id: this.id,
         userId: this.userId,
         transactionType: this.transactionType,
-        // users: this.Users,
+        // user: this.User,
         itemName: this.itemName,
         description: this.description,
         amount: this.amount + this.currency,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  Transactions.init(
+  Transaction.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -78,9 +78,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Transactions.associate = models => {
-    Transactions.belongsTo(models.Users);
+  Transaction.associate = models => {
+    Transaction.belongsTo(models.User);
   };
 
-  return Transactions;
+  return Transaction;
 };

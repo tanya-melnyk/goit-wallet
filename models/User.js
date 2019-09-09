@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Sequelize.Model {
+  class User extends Sequelize.Model {
     render() {
       return {
         id: this.id,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  Users.init(
+  User.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -66,9 +66,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Users.associate = models => {
-    Users.hasMany(models.Transactions);
+  User.associate = models => {
+    User.hasMany(models.Transaction);
   };
 
-  return Users;
+  return User;
 };
