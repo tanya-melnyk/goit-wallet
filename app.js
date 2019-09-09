@@ -59,3 +59,6 @@ Server: remotemysql.com
 Port: 3306
 * 
 * */
+
+
+// wallet-goit.eu.auth0.com
