@@ -68,6 +68,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.hasMany(models.Transaction);
+    User.hasMany(models.RefreshToken); 
   };
 
   return User;

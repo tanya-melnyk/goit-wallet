@@ -10,7 +10,7 @@ const { exchangeRefreshToken } = require('../controllers/auth');
 router.post('/', async (req, res) => {
   const tokens = await exchangeRefreshToken(req.headers['authorization']);
 
-  res.status(200).json({ status: 'OK', tokens });
+  res.status(201).json({ status: 'OK', tokens });
 });
 
 module.exports = router;
