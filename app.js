@@ -1,51 +1,34 @@
+'use strict';
+
 require('./core/express-promise');
-const express = require("express");
-const app = express();
-const logger = require("morgan");
-const bodyParser = require('body-parser');
+
+const express = require('express');
 const expressDomain = require('express-domain');
-const config = require("./config");
-const notFound = require('./middleware/not-found');
+const logger = require('morgan');
+
+const config = require('./config');
 const errorHandler = require('./middleware/error-handler');
+const notFound = require('./middleware/not-found');
+const routes = require('./routes');
 const validationErrorHandler = require('./middleware/validation-error-handler');
+
+const app = express();
 
 const PORT = config.PORT;
 
-const routes = require('./routes/routes');
-
 app.use(expressDomain());
 
-// write connection to DB
-// https://remotemysql.com/login.php can be used for free MySQL db
-// www.elephantsql.com/‎
-
-
-
-/*
-* Username: kLtnk2xqwN
-
-Database name: kLtnk2xqwN
-
-Password: Lw8Zr7l2Dv
-
-Server: remotemysql.com
-
-Port: 3306
-* 
-* */
-
-
 // use logger
-app.use(logger("dev"));
+app.use(logger('dev'));
 
 // Routes
 // main route return static
-app.get("/", express.static("public"));
+app.get('/', express.static('public'));
 
-app.use(bodyParser.json({limit: '2mb'}));
-app.use(bodyParser.urlencoded({extended: false, limit: '2mb'}));
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: false, limit: '2mb' }));
 
-app.use("/api", routes);
+app.use('/api/v1', routes);
 app.use('/*', notFound);
 app.use(validationErrorHandler);
 app.use(errorHandler);
@@ -59,3 +42,23 @@ const server = app.listen(PORT, () => {
 app.set('server', server);
 
 //Run app, then load http://localhost:PORT in a browser to see the output.
+
+// write connection to DB
+// https://remotemysql.com/login.php can be used for free MySQL db
+// www.elephantsql.com/‎
+
+/*
+* Username: VAULOT615Y
+
+Database name: VAULOT615Y
+
+Password: 2q7QRqpjM1
+
+Server: remotemysql.com
+
+Port: 3306
+* 
+* */
+
+
+// wallet-goit.eu.auth0.com
