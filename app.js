@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 require('./core/express-promise');
 
 const express = require('express');
@@ -59,6 +60,5 @@ Server: remotemysql.com
 Port: 3306
 * 
 * */
-
 
 // wallet-goit.eu.auth0.com

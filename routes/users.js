@@ -9,7 +9,7 @@ const userController = require('../controllers/user');
 // POST request for creating User
 router.post('/', async (req, res) => {
   const user = await userController.createUser(req.body);
-  res.status(201).json(user.render());
+  res.status(201).json({ status: 'OK', user: user.render() });
 });
 
 // GET request for User by ID
@@ -22,7 +22,7 @@ router.get('/:userId', async (req, res) => {
       .json({ code: 'NOT_FOUND', message: 'User not Found' });
   }
 
-  res.status(200).json(user.render());
+  res.status(200).json({ status: 'OK', user: user.render() });
 });
 
 // GET request for all Users
