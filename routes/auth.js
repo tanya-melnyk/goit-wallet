@@ -1,6 +1,12 @@
+'use strict';
+
 const router = require('express').Router();
 
 const authController = require('../controllers/auth');
+
+// @route /*
+
+// request for user authorization
 
 router.use('/', async (req, res, next) => {
   const token = await req.headers['authorization'];
@@ -13,7 +19,7 @@ router.use('/', async (req, res, next) => {
 
   req.user = authController.validateToken(token);
 
-  req.next();
+  next();
 });
 
 module.exports = router;
