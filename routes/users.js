@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 
+const authorizeUser = require('./auth');
 const userController = require('../controllers/user');
 
 // @route /users
@@ -11,6 +12,8 @@ router.post('/', async (req, res) => {
   const user = await userController.createUser(req.body);
   res.status(201).json({ status: 'OK', user: user.render() });
 });
+
+router.use(authorizeUser);
 
 // GET request for User by ID
 router.get('/:userId', async (req, res) => {
