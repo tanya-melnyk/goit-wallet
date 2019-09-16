@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
   res.status(201).json({ status: 'OK', user: user.render() });
 });
 
+// Authorize user before allowing any further action
 router.use(authorizeUser);
 
 // GET request for User by ID

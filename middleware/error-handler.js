@@ -1,7 +1,13 @@
+const { JsonWebTokenError } = require('jsonwebtoken');
+
 module.exports = function internalServerError(err, req, res, next) {
+  if (err instanceof JsonWebTokenError) {
+    return res.status(401).json(err);
+  }
+
   if (err.domain) {
     try {
-      const killtimer = setTimeout(() => process.exit(1),10000);
+      const killtimer = setTimeout(() => process.exit(1), 10000);
       killtimer.unref();
 
       req.app.get('server').close();
@@ -12,5 +18,5 @@ module.exports = function internalServerError(err, req, res, next) {
     }
   }
 
-  res.status(500).json({code: err.code, message: err.message});
+  res.status(500).json({ code: err.code, message: err.message });
 };

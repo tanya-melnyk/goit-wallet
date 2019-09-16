@@ -11,8 +11,9 @@ router.use('/', async (req, res, next) => {
       .json({ code: 'Unauthorized', message: 'Unauthorized' });
   }
 
-  next();
-  // authController.validateToken(token);
+  req.user = authController.validateToken(token);
+
+  req.next();
 });
 
 module.exports = router;

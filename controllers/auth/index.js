@@ -18,21 +18,25 @@ module.exports = {
       throw new AuthError('Unauthorized');
     }
 
-    // expires in 5 min
+    // expires in 15 min
     const accessToken = jwt.sign(
-      { ...user.render(), exp: Math.floor(Date.now() / 1000) + 5 * 60 },
+      { ...user.render(), exp: Math.floor(Date.now() / 1000) + 15 * 60 },
       process.env.JWT_SECRET,
     );
 
-    // expires in 1 hour
+    // expires in a week
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '7 days',
     });
 
     return {
       accessToken,
       refreshToken,
     };
+  },
+
+  validateToken(token) {
+    jwt.verify(token, process.env.JWT_SECRET);
   },
 
   AuthError,
