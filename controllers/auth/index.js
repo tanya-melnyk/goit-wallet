@@ -16,7 +16,7 @@ module.exports = {
       throw new jwt.JsonWebTokenError('Unauthorized');
     }
 
-    console.log(this);
+    // console.log(this);
 
     return this.generateTokens(user);
   },
@@ -43,7 +43,7 @@ module.exports = {
     // В этом методе this не видит объекта и выдает undefined,
     // не могу понять почему...
     // console.log(this); // undefined
-    // return this.generateTokens(user); // "Cannot read property '_generateTokens' of undefined"
+    // return this.generateTokens(user); // "Cannot read property 'generateTokens' of undefined"
 
     // expires in 15 min
     const accessToken = jwt.sign(

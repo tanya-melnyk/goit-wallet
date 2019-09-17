@@ -2,7 +2,7 @@
 
 const express = require('express');
 
-const authorizeUser = require('./auth');
+const authRouter = require('./auth');
 const loginRouter = require('./login');
 const userProfileRouter = require('./userProfile');
 const transactionsRouter = require('./transactions');
@@ -13,7 +13,7 @@ const app = express();
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use('/auth', authorizeUser);
+app.use('/auth', authRouter);
 // app.use(authorizeUser);
 app.use('/refresh', updateTokenRouter);
 app.use('/me', userProfileRouter);

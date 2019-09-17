@@ -18,28 +18,31 @@ const app = express();
 
 const PORT = config.PORT;
 
+// Use asynchronous error handler for Express
 app.use(expressDomain());
 
-// use logger
+// Use logger
 app.use(logger('dev'));
+
+// Configuration
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: false, limit: '2mb' }));
+
+// Use passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 // main route return static
 app.get('/', express.static('public'));
-
-app.use(express.json({ limit: '2mb' }));
-app.use(express.urlencoded({ extended: false, limit: '2mb' }));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use('/api/v1', routes);
 app.use('/*', notFound);
 
-// add error handlers
+// Error handlers
 app.use(validationErrorHandler);
 app.use(errorHandler);
 
+// Start server
 const server = app.listen(PORT, () => {
   console.log(`➡️  Wallet app listening on port ${PORT} 🤟`);
 });

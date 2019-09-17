@@ -31,7 +31,9 @@ router.get('/:userId', async (req, res) => {
 
 // GET request for all Users
 router.get('/', async (req, res) => {
-  const users = await userController.getAllUsers(req.query);
+  const users = (await userController.getAllUsers(req.query)).map(user =>
+    user.render(),
+  );
   res.status(200).json(users);
 });
 

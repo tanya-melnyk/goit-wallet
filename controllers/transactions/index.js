@@ -3,12 +3,12 @@
 const { User, Transaction } = require('../../models');
 
 module.exports = {
-  // @route    GET /transactions/:userId
-  // @desc     Get all user's transactions by user ID
-  getTransactionsByUserId(userId, { offset = 0, limit = 10 }) {
+  // @route    GET /transactions/
+  // @desc     Get all transactions of current user
+  getUserTransactions(user, { offset = 0, limit = 10 }) {
     return Transaction.findAll({
       where: {
-        userId,
+        user_id: user.id,
       },
       offset,
       limit,
@@ -22,9 +22,9 @@ module.exports = {
   },
 
   // @route    POST /transactions/cost or /transactions/income
-  // @desc     Create a transaction
-  createTransaction(payload) {
-    return Transaction.create(payload);
+  // @desc     Create a transaction for current user
+  createTransaction(payload, userId) {
+    return Transaction.create({ ...payload, userId });
   },
 
   // @route    GET /transactions/cost/:id or /transactions/income/:id

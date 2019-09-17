@@ -21,7 +21,6 @@ router.get(
 router.get(
   '/linkedin/callback',
   passport.authenticate('linkedin', {
-    // successRedirect: '/api/v1/me',
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {

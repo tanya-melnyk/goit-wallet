@@ -2,14 +2,15 @@
 
 const router = require('express').Router();
 
+const authMiddleware = require('../middleware/authorization');
 const transactionsController = require('../controllers/transactions');
 
 // @route /transactions
 
-// GET request for all user's transactions by user ID
-router.get('/:userId', async (req, res) => {
-  const transactions = await transactionsController.getTransactionsByUserId(
-    req.params.userId,
+// GET request for all transactions of current user
+router.get('/', authMiddleware, async (req, res) => {
+  const transactions = await transactionsController.getUserTransactions(
+    req.user,
     req.query,
   );
 
@@ -17,14 +18,20 @@ router.get('/:userId', async (req, res) => {
 });
 
 // POST request for creating Transaction Cost
-router.post('/costs', async (req, res) => {
-  const cost = await transactionsController.createTransaction(req.body);
+router.post('/costs', authMiddleware, async (req, res) => {
+  const cost = await transactionsController.createTransaction(
+    req.body,
+    req.user.id,
+  );
   res.status(201).json({ status: 'OK', cost });
 });
 
 // POST request for creating Transaction Income
-router.post('/income', async (req, res) => {
-  const income = await transactionsController.createTransaction(req.body);
+router.post('/income', authMiddleware, async (req, res) => {
+  const income = await transactionsController.createTransaction(
+    req.body,
+    req.user.id,
+  );
   res.status(201).json({ status: 'OK', income });
 });
 
