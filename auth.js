@@ -1,7 +1,10 @@
 const config = require('./config');
-const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const passport = require('passport');
 
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+
+// Passport strategy for authenticating with LinkedIn
 passport.use(
   new LinkedInStrategy(
     {
@@ -11,6 +14,22 @@ passport.use(
       scope: config.linkedIn.scopes,
     },
     function(accessToken, refreshToken, profile, done) {
+      return done(null, profile);
+    },
+  ),
+);
+
+// Passport strategy for authenticating with Google
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: config.google.clientId,
+      clientSecret: config.google.clientSecret,
+      callbackURL: config.google.callback,
+      passReqToCallback: true,
+      // scope: config.google.scopes,
+    },
+    function(request, accessToken, refreshToken, profile, done) {
       return done(null, profile);
     },
   ),

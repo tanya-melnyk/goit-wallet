@@ -14,7 +14,6 @@ const app = express();
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/auth', authRouter);
-// app.use(authorizeUser);
 app.use('/refresh', updateTokenRouter);
 app.use('/me', userProfileRouter);
 app.use('/transactions', transactionsRouter);

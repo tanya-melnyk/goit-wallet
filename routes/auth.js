@@ -9,7 +9,7 @@ const userController = require('../controllers/user');
 
 // @route /auth
 
-// request for user authorization
+// GET request for user authorization with LinkedIn
 
 router.get(
   '/linkedin',
@@ -31,22 +31,24 @@ router.get(
   },
 );
 
-// @route /*
+// GET request for user authorization with Google
 
-// request for user authorization
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: config.google.scopes }),
+);
 
-// router.use('/', async (req, res, next) => {
-//   const token = await req.headers['authorization'];
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/api/v1/login',
+  }),
+  async (req, res) => {
+    const user = await userController.getGoogleUser(req.user);
+    const tokens = await authController.generateTokens(user);
 
-//   if (!token) {
-//     return res
-//       .status(401)
-//       .json({ code: 'Unauthorized', message: 'Unauthorized' });
-//   }
-
-//   req.user = authController.validateToken(token);
-
-//   next();
-// });
+    res.json(tokens);
+  },
+);
 
 module.exports = router;

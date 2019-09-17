@@ -31,6 +31,8 @@ module.exports = {
     });
   },
 
+  // @route    GET /linkedin/callback
+  // @desc     Get user by email from Linkedin profile
   async getLinkedInUser(linkedinUser) {
     const user = await User.findOne({
       where: {
@@ -44,6 +46,27 @@ module.exports = {
         lastName: linkedinUser.name.familyName,
         email: linkedinUser.emails[0].value,
         linkedinId: linkedinUser.id,
+      });
+    }
+
+    return user;
+  },
+
+  // @route    GET /google/callback
+  // @desc     Get user by email from Google profile
+  async getGoogleUser(googleUser) {
+    const user = await User.findOne({
+      where: {
+        email: googleUser.emails[0].value,
+      },
+    });
+
+    if (!user) {
+      user = await User.create({
+        firstName: googleUser.name.givenName,
+        lastName: googleUser.name.familyName,
+        email: googleUser.emails[0].value,
+        googleId: googleUser.id,
       });
     }
 

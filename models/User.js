@@ -53,6 +53,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(20),
         field: 'linkedin_id',
       },
+      googleId: {
+        type: DataTypes.STRING(50),
+        field: 'google_id',
+      },
       password: {
         type: DataTypes.STRING(100),
         allowNull: true,
@@ -61,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         validate: {
           shouldHavePassword(value) {
-            if (!value && !this.linkedinId) {
+            if (!value && !this.linkedinId && !this.googleId) {
               throw new Error('Password is required for local users');
             }
           },

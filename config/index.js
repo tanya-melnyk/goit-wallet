@@ -4,10 +4,17 @@ module.exports = {
 
   linkedIn: {
     clientId: process.env.LINKEDIN_CLIENT_ID || '86d20z9kh5z6t3',
-    clientSecret: process.env.LINKEDIN_SECRET || 'KGYshZqAlMdGB0Da',
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET || 'KGYshZqAlMdGB0Da',
     callback: 'http://localhost:5001/api/v1/auth/linkedin/callback',
-    scopes: ['r_emailaddress', 'r_liteprofile']
-  }
+    scopes: ['r_emailaddress', 'r_liteprofile'],
+  },
+
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '704559768255-istvplm2k4g00raueufg5uau9tt4t805.apps.googleusercontent.com',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'Nt8wTU24pQmIJEoaS_MC1f7C',
+    callback: 'http://localhost:5001/api/v1/auth/google/callback',
+    scopes: ['email', 'profile'],
+  },
 
   // DB_DATABASE: "wallet",
   // DB_SQL_URL: process.env.DB_URL || "http://localhost:3306/",

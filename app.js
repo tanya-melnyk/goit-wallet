@@ -48,22 +48,3 @@ const server = app.listen(PORT, () => {
 });
 
 app.set('server', server);
-
-// write connection to DB
-// https://remotemysql.com/login.php can be used for free MySQL db
-// www.elephantsql.com/‎
-
-/*
-* Username: VAULOT615Y
-
-Database name: VAULOT615Y
-
-Password: 2q7QRqpjM1
-
-Server: remotemysql.com
-
-Port: 3306
-* 
-* */
-
-// wallet-goit.eu.auth0.com
