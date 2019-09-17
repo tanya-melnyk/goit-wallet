@@ -2,7 +2,7 @@
 
 const router = require('express').Router();
 
-const authorizeUser = require('./auth');
+// const authorizeUser = require('./auth');
 const userController = require('../controllers/user');
 
 // @route /users
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
 });
 
 // Authorize user before allowing any further action
-router.use(authorizeUser);
+// router.use(authorizeUser);
 
 // GET request for User by ID
 router.get('/:userId', async (req, res) => {

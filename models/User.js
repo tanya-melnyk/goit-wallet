@@ -49,11 +49,22 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
+      linkedinId: {
+        type: DataTypes.STRING(20),
+        field: 'linkedin_id',
+      },
       password: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
         set(val) {
           this.setDataValue('password', bcrypt.hashSync(val, 10));
+        },
+        validate: {
+          shouldHavePassword(value) {
+            if (!value && !this.linkedinId) {
+              throw new Error('Password is required for local users');
+            }
+          },
         },
       },
     },
@@ -68,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.hasMany(models.Transaction);
-    User.hasMany(models.RefreshToken); 
+    User.hasMany(models.RefreshToken);
   };
 
   return User;

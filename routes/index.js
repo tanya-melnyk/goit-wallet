@@ -13,7 +13,8 @@ const app = express();
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use(authorizeUser);
+app.use('/auth', authorizeUser);
+// app.use(authorizeUser);
 app.use('/refresh', updateTokenRouter);
 app.use('/me', userProfileRouter);
 app.use('/transactions', transactionsRouter);

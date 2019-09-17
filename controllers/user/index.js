@@ -31,6 +31,25 @@ module.exports = {
     });
   },
 
+  async getLinkedInUser(linkedinUser) {
+    const user = await User.findOne({
+      where: {
+        email: linkedinUser.emails[0].value,
+      },
+    });
+
+    if (!user) {
+      user = await User.create({
+        firstName: linkedinUser.name.givenName,
+        lastName: linkedinUser.name.familyName,
+        email: linkedinUser.emails[0].value,
+        linkedinId: linkedinUser.id,
+      });
+    }
+
+    return user;
+  },
+
   // @route    GET /users
   // @desc     Get all users
   getAllUsers({ offset = 0, limit = 10 }) {
