@@ -33,8 +33,8 @@ module.exports = {
 
   // @route    GET /users
   // @desc     Get all users
-  getAllUsers() {
-    return User.findAll();
+  getAllUsers({ offset = 0, limit = 10 }) {
+    return User.findAll({ offset, limit });
   },
 
   // @route    DELETE /users/:userId

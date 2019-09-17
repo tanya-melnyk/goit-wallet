@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         id: this.id,
         userId: this.userId,
         transactionType: this.transactionType,
-        // user: this.User,
         itemName: this.itemName,
         description: this.description,
         amount: this.amount + this.currency,

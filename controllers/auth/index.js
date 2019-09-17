@@ -3,9 +3,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const config = require('../../config');
 const { User, RefreshToken } = require('../../models');
-
-class AuthError extends Error {}
 
 module.exports = {
   async login({ email, password }) {
@@ -13,21 +12,20 @@ module.exports = {
 
     if (!user) return;
 
-    if (!bcrypt.compareSync(password, user.password)) {
-      throw new AuthError('Unauthorized');
+    if (!user.password || !bcrypt.compareSync(password, user.password)) {
+      throw new jwt.JsonWebTokenError('Unauthorized');
     }
 
-    // console.log(this);
+    console.log(this);
 
-    return this._generateTokens(user);
+    return this.generateTokens(user);
   },
 
   validateToken(token) {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    return jwt.verify(token, config.jwtSecret);
   },
 
   async exchangeRefreshToken(oldRefreshToken) {
-    console.log(this);
     const token = await RefreshToken.findOne({
       where: { token: oldRefreshToken },
     });
@@ -38,11 +36,14 @@ module.exports = {
 
     await token.destroy();
 
-    const decoded = jwt.verify(oldRefreshToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(oldRefreshToken, config.jwtSecret);
 
     const user = await User.findOne({ where: { id: decoded.id } });
 
-    // return this._generateTokens(user);
+    // В этом методе this не видит объекта и выдает undefined,
+    // не могу понять почему...
+    // console.log(this); // undefined
+    // return this.generateTokens(user); // "Cannot read property '_generateTokens' of undefined"
 
     // expires in 15 min
     const accessToken = jwt.sign(
@@ -66,15 +67,15 @@ module.exports = {
     };
   },
 
-  async _generateTokens(user) {
+  async generateTokens(user) {
     // expires in 15 min
     const accessToken = jwt.sign(
       { ...user.render(), exp: Math.floor(Date.now() / 1000) + 15 * 60 },
-      process.env.JWT_SECRET,
+      config.jwtSecret,
     );
 
     // expires in a week
-    const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    const refreshToken = jwt.sign({ id: user.id }, config.jwtSecret, {
       expiresIn: '7 days',
     });
 
@@ -88,6 +89,4 @@ module.exports = {
       refreshToken,
     };
   },
-
-  AuthError,
 };

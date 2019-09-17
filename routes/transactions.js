@@ -10,6 +10,7 @@ const transactionsController = require('../controllers/transactions');
 router.get('/:userId', async (req, res) => {
   const transactions = await transactionsController.getTransactionsByUserId(
     req.params.userId,
+    req.query,
   );
 
   res.status(200).json({ status: 'OK', transactions });

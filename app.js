@@ -31,18 +31,16 @@ app.use(express.urlencoded({ extended: false, limit: '2mb' }));
 
 app.use('/api/v1', routes);
 app.use('/*', notFound);
-app.use(validationErrorHandler);
-app.use(errorHandler);
 
 // add error handlers
+app.use(validationErrorHandler);
+app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
   console.log(`➡️  Wallet app listening on port ${PORT} 🤟`);
 });
 
 app.set('server', server);
-
-//Run app, then load http://localhost:PORT in a browser to see the output.
 
 // write connection to DB
 // https://remotemysql.com/login.php can be used for free MySQL db

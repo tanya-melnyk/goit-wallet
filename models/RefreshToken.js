@@ -3,15 +3,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class RefreshToken extends Sequelize.Model {
-    // render() {
-    //   return {
-    //     id: this.id,
-    //     userId: this.userId,
-    //     token: this.token,
-    //   };
-    // }
-  }
+  class RefreshToken extends Sequelize.Model {}
 
   RefreshToken.init(
     {
@@ -22,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.INTEGER,
-        // allowNull: false,
       },
       token: {
         type: DataTypes.STRING,
@@ -33,8 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       timestamps: false,
       underscored: true,
-      // freezeTableName: true,
-      // tableName: 'refresh_tokens',
     },
   );
 

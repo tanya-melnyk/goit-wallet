@@ -1,5 +1,6 @@
 module.exports = {
   PORT: process.env.PORT || 5001,
+  jwtSecret: process.env.JWT_SECRET || 'secret',
 
   // DB_DATABASE: "wallet",
   // DB_SQL_URL: process.env.DB_URL || "http://localhost:3306/",
