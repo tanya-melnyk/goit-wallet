@@ -43,19 +43,37 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
+          shouldHaveEmail(value) {
+            if (
+              !value &&
+              !this.linkedinId &&
+              !this.googleId &&
+              !this.facebookId
+            ) {
+              throw new Error('Email is required for local users');
+            }
+          },
+
           isEmail: true,
         },
+      },
+      facebookId: {
+        type: DataTypes.STRING(20),
+        field: 'facebook_id',
+        allowNull: true,
       },
       linkedinId: {
         type: DataTypes.STRING(20),
         field: 'linkedin_id',
+        allowNull: true,
       },
       googleId: {
         type: DataTypes.STRING(50),
         field: 'google_id',
+        allowNull: true,
       },
       password: {
         type: DataTypes.STRING(100),
@@ -65,7 +83,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         validate: {
           shouldHavePassword(value) {
-            if (!value && !this.linkedinId && !this.googleId) {
+            if (
+              !value &&
+              !this.linkedinId &&
+              !this.googleId &&
+              !this.facebookId
+            ) {
               throw new Error('Password is required for local users');
             }
           },

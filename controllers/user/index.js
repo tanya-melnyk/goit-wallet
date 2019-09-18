@@ -40,7 +40,7 @@ module.exports = {
 
     const user = await User.findOne({
       where: {
-        firstName: givenName,
+        facebookId: facebookUser.id,
       },
     });
 
@@ -48,26 +48,9 @@ module.exports = {
       user = await User.create({
         firstName: givenName,
         lastName: familyName,
-        email: 'ad@MediaList.com',
-        password: '12345',
-        // facebookId: facebookUser.id,
+        facebookId: facebookUser.id,
       });
     }
-
-    // const user = await User.findOne({
-    //   where: {
-    //     email: facebookUser.emails[0].value,
-    //   },
-    // });
-
-    // if (!user) {
-    //   user = await User.create({
-    //     firstName: facebookUser.name.givenName,
-    //     lastName: facebookUser.name.familyName,
-    //     email: facebookUser.emails[0].value,
-    //     facebookId: facebookUser.id,
-    //   });
-    // }
 
     return user;
   },
