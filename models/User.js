@@ -78,9 +78,6 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING(100),
         allowNull: true,
-        set(val) {
-          this.setDataValue('password', bcrypt.hashSync(val, 10));
-        },
         validate: {
           shouldHavePassword(value) {
             if (
@@ -92,6 +89,25 @@ module.exports = (sequelize, DataTypes) => {
               throw new Error('Password is required for local users');
             }
           },
+
+          len: {
+            args: [6, 100],
+            msg: 'Password must be 6 or more chars long',
+          },
+
+          is: {
+            args: /(?=.*[0-9])(?=.*[A-Z])/g,
+            msg: 'Password must include at least 1 number and 1 capital letter',
+          },
+        },
+        set(val) {
+          const myregexp = /(?=.*[0-9])(?=.*[A-Z])/g;
+          
+          if (val && val.length > 6 && myregexp.test(val)) {
+            this.setDataValue('password', bcrypt.hashSync(val, 10));
+          } else {
+            this.setDataValue('password', val);
+          }
         },
       },
     },
