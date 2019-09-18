@@ -35,9 +35,9 @@ module.exports = {
   // @desc     Get user by email from Facebook profile
   async getFacebookUser(facebookUser) {
     console.log(facebookUser);
-    
+
     const [givenName, familyName] = facebookUser.displayName.split(' ');
-    
+
     const user = await User.findOne({
       where: {
         firstName: givenName,
@@ -118,6 +118,17 @@ module.exports = {
   // @desc     Get all users
   getAllUsers({ offset = 0, limit = 10 }) {
     return User.findAll({ offset, limit });
+  },
+
+  // @route    PATCH /change-password
+  // @desc     Change current user password
+  changeUserPassword(userId, newPassword) {
+    return User.update(
+      { password: newPassword },
+      {
+        where: { id: userId },
+      },
+    );
   },
 
   // @route    DELETE /users/:userId

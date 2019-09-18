@@ -2,7 +2,6 @@
 
 const router = require('express').Router();
 
-// const authorizeUser = require('./auth');
 const userController = require('../controllers/user');
 
 // @route /users
