@@ -19,18 +19,20 @@ router.get('/', authMiddleware, async (req, res) => {
 
 // POST request for creating Cost Transaction
 router.post('/costs', authMiddleware, async (req, res) => {
-  const cost = await transactionsController.createCostTransaction(
+  const cost = await transactionsController.createTransaction(
     req.body,
-    req.user.id,
+    req.user,
+    'cost',
   );
   res.status(201).json({ status: 'OK', cost });
 });
 
 // POST request for creating Income Transaction
 router.post('/income', authMiddleware, async (req, res) => {
-  const income = await transactionsController.createIncomeTransaction(
+  const income = await transactionsController.createTransaction(
     req.body,
-    req.user.id,
+    req.user,
+    'income',
   );
   res.status(201).json({ status: 'OK', income });
 });

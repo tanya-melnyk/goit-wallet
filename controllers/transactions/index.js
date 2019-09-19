@@ -21,23 +21,17 @@ module.exports = {
     });
   },
 
-  // @route    POST /transactions/cost
-  // @desc     Create a cost transaction for current user
-  createCostTransaction(payload, userId) {
-    return Transaction.create({
-      ...payload,
-      userId,
-      transactionType: 'cost',
-    });
-  },
+  // @route    POST /transactions/cost or /transactions/income
+  // @desc     Create a cost or an income transaction for current user
+  async createTransaction(payload, user, transactionType) {
+    if (!payload.currency) {
+      payload.currency = user.defaultCurrency ? user.defaultCurrency : 'UAH';
+    }
 
-  // @route    POST /transactions/income
-  // @desc     Create an income transaction for current user
-  createIncomeTransaction(payload, userId) {
     return Transaction.create({
       ...payload,
-      userId,
-      transactionType: 'income',
+      userId: user.id,
+      transactionType,
     });
   },
 

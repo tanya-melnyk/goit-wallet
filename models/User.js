@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
         email: this.email,
+        defaultCurrency: this.defaultCurrency,
         transactions: this.Transactions,
       };
     }
@@ -102,12 +103,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         set(val) {
           const myregexp = /(?=.*[0-9])(?=.*[A-Z])/g;
-          
-          if (val && val.length > 6 && myregexp.test(val)) {
+
+          if (val && val.length >= 6 && myregexp.test(val)) {
             this.setDataValue('password', bcrypt.hashSync(val, 10));
           } else {
             this.setDataValue('password', val);
           }
+        },
+      },
+      defaultCurrency: {
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        field: 'default_currency',
+        validate: {
+          isIn: {
+            args: [['UAH', 'USD', 'EUR']],
+            msg: 'Default currency should be UAH, USD or EUR',
+          },
         },
       },
     },

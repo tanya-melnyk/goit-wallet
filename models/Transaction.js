@@ -60,10 +60,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       currency: {
         type: DataTypes.STRING(50),
-        defaultValue: 'UAH',
+        // defaultValue: 'UAH',
         allowNull: false,
         validate: {
-          isIn: [['UAH', 'USD', 'EURO']],
+          isIn: [['UAH', 'USD', 'EUR']],
         },
       },
       category: DataTypes.STRING(50),
