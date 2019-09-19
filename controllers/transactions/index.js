@@ -70,15 +70,15 @@ async function getCurrencyRatesBy(date) {
   const exchangeRates = pbApiData.exchangeRate;
 
   const usdData = exchangeRates.find(obj => obj.currency === 'USD');
-  const usdToUahRate = Number(usdData.saleRateNB.toFixed(2));
-  const uahToUsdRate = Number((1 / usdToUahRate).toFixed(2));
+  const usdToUahRate = Number(usdData.saleRateNB.toFixed(4));
+  const uahToUsdRate = Number((1 / usdToUahRate).toFixed(4));
 
   const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
-  const eurToUahRate = Number(eurData.saleRateNB.toFixed(2));
-  const uahToEurRate = Number((1 / eurToUahRate).toFixed(2));
+  const eurToUahRate = Number(eurData.saleRateNB.toFixed(4));
+  const uahToEurRate = Number((1 / eurToUahRate).toFixed(4));
 
-  const usdToEurRate = Number((usdToUahRate / eurToUahRate).toFixed(2));
-  const eurToUsdRate = Number((1 / usdToEurRate).toFixed(2));
+  const usdToEurRate = Number((usdToUahRate / eurToUahRate).toFixed(4));
+  const eurToUsdRate = Number((1 / usdToEurRate).toFixed(4));
 
   return {
     'UAH/USD': uahToUsdRate,
