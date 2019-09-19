@@ -1,5 +1,7 @@
 'use strict';
 
+const request = require('request-promise');
+
 const { User, Transaction } = require('../../models');
 
 module.exports = {
@@ -28,10 +30,14 @@ module.exports = {
       payload.currency = user.defaultCurrency ? user.defaultCurrency : 'UAH';
     }
 
+    const date = payload.createdAt || new Date();
+    const currencyRates = await getCurrencyRatesBy(date);
+
     return Transaction.create({
       ...payload,
       userId: user.id,
       transactionType,
+      currencyRates,
     });
   },
 
@@ -46,3 +52,40 @@ module.exports = {
     });
   },
 };
+
+// Это точно работает, если пользователь не ввел дату сам,
+// но если ввел, то в каком формате нам это придет?
+// Как обрабатывать дату введенную пользователем?
+// Или мы тоже получим ее в виде объекта Date?
+async function getCurrencyRatesBy(date) {
+  const dateStr =
+    date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+
+  const options = {
+    uri: `https://api.privatbank.ua/p24api/exchange_rates?json&date=${dateStr}`,
+    json: true,
+  };
+
+  const pbApiData = await request(options);
+  const exchangeRates = pbApiData.exchangeRate;
+
+  const usdData = exchangeRates.find(obj => obj.currency === 'USD');
+  const usdToUahRate = Number(usdData.saleRateNB.toFixed(2));
+  const uahToUsdRate = Number((1 / usdToUahRate).toFixed(2));
+
+  const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
+  const eurToUahRate = Number(eurData.saleRateNB.toFixed(2));
+  const uahToEurRate = Number((1 / eurToUahRate).toFixed(2));
+
+  const usdToEurRate = Number((usdToUahRate / eurToUahRate).toFixed(2));
+  const eurToUsdRate = Number((1 / usdToEurRate).toFixed(2));
+
+  return {
+    'UAH/USD': uahToUsdRate,
+    'USD/UAH': usdToUahRate,
+    'USD/EUR': usdToEurRate,
+    'EUR/USD': eurToUsdRate,
+    'UAH/EUR': uahToEurRate,
+    'EUR/UAH': eurToUahRate,
+  };
+}

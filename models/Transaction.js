@@ -66,7 +66,14 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [['UAH', 'USD', 'EUR']],
         },
       },
-      category: DataTypes.STRING(50),
+      category: {
+        type: DataTypes.STRING(50),
+      },
+      currencyRates: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        field: 'currency_rates',
+      },
     },
     {
       sequelize,
