@@ -58,8 +58,11 @@ module.exports = {
 // Как обрабатывать дату введенную пользователем?
 // Или мы тоже получим ее в виде объекта Date?
 async function getCurrencyRatesBy(date) {
-  const dateStr =
-    date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  const dateStr = day + '.' + month + '.' + year;
 
   const options = {
     uri: `https://api.privatbank.ua/p24api/exchange_rates?json&date=${dateStr}`,
@@ -70,10 +73,11 @@ async function getCurrencyRatesBy(date) {
   const exchangeRates = pbApiData.exchangeRate;
 
   const usdData = exchangeRates.find(obj => obj.currency === 'USD');
+  const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
+
   const usdToUahRate = Number(usdData.saleRateNB.toFixed(4));
   const uahToUsdRate = Number((1 / usdToUahRate).toFixed(4));
 
-  const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
   const eurToUahRate = Number(eurData.saleRateNB.toFixed(4));
   const uahToEurRate = Number((1 / eurToUahRate).toFixed(4));
 
