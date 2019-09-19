@@ -48,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         field: 'item_name',
       },
-      description: {
-        type: DataTypes.STRING(100),
+      comment: {
+        type: DataTypes.STRING,
       },
       amount: {
         type: DataTypes.INTEGER,
