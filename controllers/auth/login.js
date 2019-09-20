@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const generateTokens = require('./generateTokens');
 const { User } = require('../../models');
 
+// @route    POST /login
+// @desc     Login a user by his credentials
 async function login({ email, password }) {
   const user = await User.findOne({ where: { email } });
 
