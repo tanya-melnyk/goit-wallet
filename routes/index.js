@@ -1,6 +1,6 @@
 'use strict';
 
-const express = require('express');
+const router = require('express').Router();
 
 const authRouter = require('./auth');
 const changePasswordRouter = require('./changePassword');
@@ -10,14 +10,13 @@ const updateTokenRouter = require('./updateToken');
 const userProfileRouter = require('./userProfile');
 const usersRouter = require('./users');
 
-const app = express();
+router
+  .use('/auth', authRouter)
+  .use('/change-password', changePasswordRouter)
+  .use('/login', loginRouter)
+  .use('/me', userProfileRouter)
+  .use('/refresh', updateTokenRouter)
+  .use('/transactions', transactionsRouter)
+  .use('/users', usersRouter);
 
-app.use('/auth', authRouter);
-app.use('/change-password', changePasswordRouter);
-app.use('/login', loginRouter);
-app.use('/me', userProfileRouter);
-app.use('/refresh', updateTokenRouter);
-app.use('/transactions', transactionsRouter);
-app.use('/users', usersRouter);
-
-module.exports = app;
+module.exports = router;

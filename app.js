@@ -3,6 +3,7 @@
 require('dotenv').config();
 require('./core/express-promise');
 
+const cors = require('cors');
 const express = require('express');
 const expressDomain = require('express-domain');
 const logger = require('morgan');
@@ -18,17 +19,20 @@ const app = express();
 
 const PORT = config.PORT;
 
-// Use asynchronous error handler for Express
+// Asynchronous error handler for Express
 app.use(expressDomain());
-
-// Use logger
-app.use(logger('dev'));
 
 // Configuration
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: false, limit: '2mb' }));
 
-// Use passport
+// Cors
+app.use(cors('*'));
+
+// Logger
+app.use(logger('dev'));
+
+// Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
