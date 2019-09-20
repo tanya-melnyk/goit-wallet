@@ -8,13 +8,21 @@ const { login } = require('../controllers/auth');
 
 // POST request for user authorization
 router.post('/', async (req, res) => {
-  const tokens = await login(req.body);
+  try {
+    const tokens = await login(req.body);
 
-  if (!tokens) {
-    res.status(404).json({ code: 'USER_NOT_FOUND', message: 'User not found' });
+    if (!tokens) {
+      res
+        .status(404)
+        .json({ code: 'USER_NOT_FOUND', message: 'User not found' });
+    }
+
+    res.status(201).json(tokens);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server error');
   }
-
-  res.status(201).json(tokens);
 });
 
 module.exports = router;

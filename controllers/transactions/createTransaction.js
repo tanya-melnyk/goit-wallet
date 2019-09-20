@@ -12,14 +12,21 @@ async function createTransaction(payload, user, transactionType) {
   }
 
   const date = payload.createdAt || new Date();
-  const currencyRates = await getCurrencyRatesBy(date);
 
-  return Transaction.create({
-    ...payload,
-    userId: user.id,
-    transactionType,
-    currencyRates,
-  });
+  try {
+    const currencyRates = await getCurrencyRatesBy(date);
+
+    return Transaction.create({
+      ...payload,
+      userId: user.id,
+      transactionType,
+      currencyRates,
+    });
+  } catch (err) {
+    console.error(err.message);
+
+    return res.status(500).send('Server error');
+  }
 }
 
 // Это точно работает, если пользователь не ввел дату сам,
@@ -38,29 +45,33 @@ async function getCurrencyRatesBy(date) {
     json: true,
   };
 
-  const pbApiData = await request(options);
-  const exchangeRates = pbApiData.exchangeRate;
+  try {
+    const pbApiData = await request(options);
+    const exchangeRates = pbApiData.exchangeRate;
 
-  const usdData = exchangeRates.find(obj => obj.currency === 'USD');
-  const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
+    const usdData = exchangeRates.find(obj => obj.currency === 'USD');
+    const eurData = exchangeRates.find(obj => obj.currency === 'EUR');
 
-  const usdToUahRate = Number(usdData.saleRateNB.toFixed(4));
-  const uahToUsdRate = Number((1 / usdToUahRate).toFixed(4));
+    const usdToUahRate = Number(usdData.saleRateNB.toFixed(4));
+    const uahToUsdRate = Number((1 / usdToUahRate).toFixed(4));
 
-  const eurToUahRate = Number(eurData.saleRateNB.toFixed(4));
-  const uahToEurRate = Number((1 / eurToUahRate).toFixed(4));
+    const eurToUahRate = Number(eurData.saleRateNB.toFixed(4));
+    const uahToEurRate = Number((1 / eurToUahRate).toFixed(4));
 
-  const usdToEurRate = Number((usdToUahRate / eurToUahRate).toFixed(4));
-  const eurToUsdRate = Number((1 / usdToEurRate).toFixed(4));
+    const usdToEurRate = Number((usdToUahRate / eurToUahRate).toFixed(4));
+    const eurToUsdRate = Number((1 / usdToEurRate).toFixed(4));
 
-  return {
-    'UAH/USD': uahToUsdRate,
-    'USD/UAH': usdToUahRate,
-    'USD/EUR': usdToEurRate,
-    'EUR/USD': eurToUsdRate,
-    'UAH/EUR': uahToEurRate,
-    'EUR/UAH': eurToUahRate,
-  };
+    return {
+      'UAH/USD': uahToUsdRate,
+      'USD/UAH': usdToUahRate,
+      'USD/EUR': usdToEurRate,
+      'EUR/USD': eurToUsdRate,
+      'UAH/EUR': uahToEurRate,
+      'EUR/UAH': eurToUahRate,
+    };
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 module.exports = createTransaction;

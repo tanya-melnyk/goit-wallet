@@ -26,7 +26,7 @@ module.exports = {
 
   // @route    GET /transactions/cost/:id or /transactions/income/:id
   // @desc     Get transaction by ID
-  async getTransactionById(id) {
+  getTransactionById(id) {
     return Transaction.findOne({
       where: {
         id,
@@ -37,9 +37,9 @@ module.exports = {
 
   // @route    GET /transactions/week(/two-weeks/month)
   // @desc     Get all transactions of current user for the last 7/14/30 days
-  async getUserTransactionsForPeriod() {
+  getUserTransactionsForPeriod() {
     const days = 7; // 14 or 30
-    const trans = await Transaction.findAll({
+    return Transaction.findAll({
       where: {
         createdAt: {
           [Op.lt]: new Date(),
@@ -48,18 +48,16 @@ module.exports = {
       },
       // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
     });
-
-    return trans;
   },
 
   // @route    GET /transactions/cur-week
   // @desc     Get all transactions of current user for the current week
-  async getUserTransactionsForCurWeek() {
+  getUserTransactionsForCurWeek() {
     const date = new Date();
     const curWeekday = date.getDay() + 1;
     const curHour = date.getHours();
 
-    const trans = await Transaction.findAll({
+    return Transaction.findAll({
       where: {
         createdAt: {
           [Op.lt]: new Date(),
@@ -72,17 +70,16 @@ module.exports = {
       },
       // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
     });
-
-    return trans;
   },
 
   // @route    GET /transactions/cur-month
   // @desc     Get all transactions of current user for the current month
-  async getUserTransactionsForCurMonth() {
+  getUserTransactionsForCurMonth() {
     const date = new Date();
     const curDay = date.getDate();
     const curHour = date.getHours();
-    const trans = await Transaction.findAll({
+
+    return Transaction.findAll({
       where: {
         createdAt: {
           [Op.lt]: new Date(),
@@ -95,7 +92,5 @@ module.exports = {
       },
       // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
     });
-
-    return trans;
   },
 };

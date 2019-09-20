@@ -12,9 +12,15 @@ router.patch('/', authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const newPassword = req.body.password;
 
-  await updateUser.changeUserPassword(userId, newPassword);
+  try {
+    await updateUser.changeUserPassword(userId, newPassword);
 
-  res.sendStatus(200);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server error');
+  }
 });
 
 module.exports = router;

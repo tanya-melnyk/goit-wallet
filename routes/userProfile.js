@@ -9,9 +9,15 @@ const { getUsers } = require('../controllers/user');
 
 // GET request for authorized user's profile
 router.get('/', authMiddleware, async (req, res) => {
-  const user = await getUsers.getUserById(req.user.id);
+  try {
+    const user = await getUsers.getUserById(req.user.id);
 
-  res.status(200).json({ status: 'OK', user: user.render() });
+    res.status(200).json({ status: 'OK', user: user.render() });
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server error');
+  }
 });
 
 module.exports = router;

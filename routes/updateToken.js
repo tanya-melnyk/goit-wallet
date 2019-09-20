@@ -8,9 +8,15 @@ const { exchangeRefreshToken } = require('../controllers/auth');
 
 // POST request for updating refresh token
 router.post('/', async (req, res) => {
-  const tokens = await exchangeRefreshToken(req.headers['authorization']);
+  try {
+    const tokens = await exchangeRefreshToken(req.headers['authorization']);
 
-  res.status(201).json({ status: 'OK', tokens });
+    res.status(201).json({ status: 'OK', tokens });
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server error');
+  }
 });
 
 module.exports = router;

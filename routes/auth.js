@@ -19,11 +19,17 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await getUsers.getFacebookUser(req.user);
-    const tokens = await generateTokens(user);
+    try {
+      const user = await getUsers.getFacebookUser(req.user);
+      const tokens = await generateTokens(user);
 
-    res.json(tokens);
-    // res.redirect('/api/v1/me');
+      res.json(tokens);
+      // res.redirect('/api/v1/me');}
+    } catch (err) {
+      console.error(err.message);
+
+      res.status(500).send('Server error');
+    }
   },
 );
 
@@ -40,10 +46,16 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await getUsers.getGoogleUser(req.user);
-    const tokens = await generateTokens(user);
+    try {
+      const user = await getUsers.getGoogleUser(req.user);
+      const tokens = await generateTokens(user);
 
-    res.json(tokens);
+      res.json(tokens);
+    } catch (err) {
+      console.error(err.message);
+
+      res.status(500).send('Server error');
+    }
   },
 );
 
@@ -62,10 +74,16 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await getUsers.getLinkedInUser(req.user);
-    const tokens = await generateTokens(user);
+    try {
+      const user = await getUsers.getLinkedInUser(req.user);
+      const tokens = await generateTokens(user);
 
-    res.json(tokens);
+      res.json(tokens);
+    } catch (err) {
+      console.error(err.message);
+
+      res.status(500).send('Server error');
+    }
   },
 );
 

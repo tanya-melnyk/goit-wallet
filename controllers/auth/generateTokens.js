@@ -17,12 +17,16 @@ async function generateTokens(user) {
     expiresIn: '7 days',
   });
 
-  await RefreshToken.create({
-    token: refreshToken,
-    userId: user.id,
-  });
+  try {
+    await RefreshToken.create({
+      token: refreshToken,
+      userId: user.id,
+    });
 
-  return { accessToken, refreshToken };
+    return { accessToken, refreshToken };
+  } catch (err) {
+    throw new Error(err.message);
+  }
 }
 
 module.exports = generateTokens;

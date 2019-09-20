@@ -32,63 +32,75 @@ module.exports = {
 
     const [givenName, familyName] = facebookUser.displayName.split(' ');
 
-    const user = await User.findOne({
-      where: {
-        facebookId: facebookUser.id,
-      },
-    });
-
-    if (!user) {
-      user = await User.create({
-        firstName: givenName,
-        lastName: familyName,
-        facebookId: facebookUser.id,
+    try {
+      const user = await User.findOne({
+        where: {
+          facebookId: facebookUser.id,
+        },
       });
-    }
 
-    return user;
+      if (!user) {
+        user = await User.create({
+          firstName: givenName,
+          lastName: familyName,
+          facebookId: facebookUser.id,
+        });
+      }
+
+      return user;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   },
 
   // @route    GET /google/callback
   // @desc     Get user by email from Google profile
   async getGoogleUser(googleUser) {
-    const user = await User.findOne({
-      where: {
-        email: googleUser.emails[0].value,
-      },
-    });
-
-    if (!user) {
-      user = await User.create({
-        firstName: googleUser.name.givenName,
-        lastName: googleUser.name.familyName,
-        email: googleUser.emails[0].value,
-        googleId: googleUser.id,
+    try {
+      const user = await User.findOne({
+        where: {
+          email: googleUser.emails[0].value,
+        },
       });
-    }
 
-    return user;
+      if (!user) {
+        user = await User.create({
+          firstName: googleUser.name.givenName,
+          lastName: googleUser.name.familyName,
+          email: googleUser.emails[0].value,
+          googleId: googleUser.id,
+        });
+      }
+
+      return user;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   },
 
   // @route    GET /linkedin/callback
   // @desc     Get user by email from Linkedin profile
   async getLinkedInUser(linkedinUser) {
-    const user = await User.findOne({
-      where: {
-        email: linkedinUser.emails[0].value,
-      },
-    });
-
-    if (!user) {
-      user = await User.create({
-        firstName: linkedinUser.name.givenName,
-        lastName: linkedinUser.name.familyName,
-        email: linkedinUser.emails[0].value,
-        linkedinId: linkedinUser.id,
+    try {
+      const user = await User.findOne({
+        where: {
+          email: linkedinUser.emails[0].value,
+        },
       });
-    }
 
-    return user;
+      if (!user) {
+        user = await User.create({
+          firstName: linkedinUser.name.givenName,
+          lastName: linkedinUser.name.familyName,
+          email: linkedinUser.emails[0].value,
+          linkedinId: linkedinUser.id,
+        });
+      }
+
+      return user;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   },
 
   // @route    GET /users
