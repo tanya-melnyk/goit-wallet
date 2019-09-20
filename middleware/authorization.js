@@ -1,6 +1,6 @@
 'use strict';
 
-const AuthController = require('../controllers/auth');
+const { validateToken } = require('../controllers/auth');
 
 module.exports = function authMiddleware(req, res, next) {
   const token = req.headers['authorization'];
@@ -11,7 +11,7 @@ module.exports = function authMiddleware(req, res, next) {
     });
   }
 
-  req.user = AuthController.validateToken(token);
+  req.user = validateToken(token);
 
   next();
 };

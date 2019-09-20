@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const passport = require('passport');
 
 const FacebookStrategy = require('passport-facebook').Strategy;

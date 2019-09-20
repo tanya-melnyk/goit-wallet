@@ -3,7 +3,7 @@
 const router = require('express').Router();
 
 const authMiddleware = require('../middleware/authorization');
-const usersController = require('../controllers/user');
+const { updateUser } = require('../controllers/user');
 
 // @route /change-password
 
@@ -12,7 +12,7 @@ router.patch('/', authMiddleware, async (req, res) => {
   const userId = req.user.id;
   const newPassword = req.body.password;
 
-  await usersController.changeUserPassword(userId, newPassword);
+  await updateUser.changeUserPassword(userId, newPassword);
 
   res.sendStatus(200);
 });

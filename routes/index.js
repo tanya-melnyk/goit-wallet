@@ -18,11 +18,5 @@ router
   .use('/refresh', updateTokenRouter)
   .use('/transactions', transactionsRouter)
   .use('/users', usersRouter)
-  .all('*', (req, res) => {
-    res.status(400).json({
-      status: 'error',
-      message: 'No such route',
-    });
-  });
 
 module.exports = router;

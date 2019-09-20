@@ -11,7 +11,7 @@ const logger = require('morgan');
 const config = require('./config');
 const errorHandler = require('./middleware/error-handler');
 const notFound = require('./middleware/not-found');
-const passport = require('./auth');
+const passport = require('./services/passport');
 const routes = require('./routes');
 const validationErrorHandler = require('./middleware/validation-error-handler');
 

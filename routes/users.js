@@ -2,19 +2,19 @@
 
 const router = require('express').Router();
 
-const userController = require('../controllers/user');
+const { createUser, deleteUserById, getUsers } = require('../controllers/user');
 
 // @route /users
 
 // POST request for creating User
 router.post('/', async (req, res) => {
-  const user = await userController.createUser(req.body);
+  const user = await createUser(req.body);
   res.status(201).json({ status: 'OK', user: user.render() });
 });
 
 // GET request for User by ID
 router.get('/:userId', async (req, res) => {
-  const user = await userController.getUserById(req.params.userId);
+  const user = await getUsers.getUserById(req.params.userId);
 
   if (!user) {
     return res
@@ -27,7 +27,7 @@ router.get('/:userId', async (req, res) => {
 
 // GET request for all Users
 router.get('/', async (req, res) => {
-  const users = (await userController.getAllUsers(req.query)).map(user =>
+  const users = (await getUsers.getAllUsers(req.query)).map(user =>
     user.render(),
   );
   res.status(200).json(users);
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 
 // DELETE request for deleting User by ID
 router.delete('/:userId', async (req, res) => {
-  const user = await userController.getUserById(req.params.userId);
+  const user = await getUsers.getUserById(req.params.userId);
 
   if (!user) {
     return res
@@ -43,7 +43,7 @@ router.delete('/:userId', async (req, res) => {
       .json({ code: 'NOT_FOUND', message: 'User not Found' });
   }
 
-  await userController.deleteUserById(req.params.userId);
+  await deleteUserById(req.params.userId);
   res.status(200).json(`User ${user.firstName} ${user.lastName} was deleted`);
 });
 

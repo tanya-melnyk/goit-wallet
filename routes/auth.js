@@ -2,10 +2,10 @@
 
 const router = require('express').Router();
 const config = require('../config');
-const passport = require('../auth');
+const passport = require('../services/passport');
 
 const { generateTokens } = require('../controllers/auth');
-const userController = require('../controllers/user');
+const { getUsers } = require('../controllers/user');
 
 // @route /auth
 
@@ -19,7 +19,7 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await userController.getFacebookUser(req.user);
+    const user = await getUsers.getFacebookUser(req.user);
     const tokens = await generateTokens(user);
 
     res.json(tokens);
@@ -40,7 +40,7 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await userController.getGoogleUser(req.user);
+    const user = await getUsers.getGoogleUser(req.user);
     const tokens = await generateTokens(user);
 
     res.json(tokens);
@@ -62,7 +62,7 @@ router.get(
     failureRedirect: '/api/v1/login',
   }),
   async (req, res) => {
-    const user = await userController.getLinkedInUser(req.user);
+    const user = await getUsers.getLinkedInUser(req.user);
     const tokens = await generateTokens(user);
 
     res.json(tokens);
