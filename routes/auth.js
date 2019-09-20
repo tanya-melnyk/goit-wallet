@@ -4,7 +4,7 @@ const router = require('express').Router();
 const config = require('../config');
 const passport = require('../auth');
 
-const authController = require('../controllers/auth');
+const { generateTokens } = require('../controllers/auth');
 const userController = require('../controllers/user');
 
 // @route /auth
@@ -20,7 +20,7 @@ router.get(
   }),
   async (req, res) => {
     const user = await userController.getFacebookUser(req.user);
-    const tokens = await authController.generateTokens(user);
+    const tokens = await generateTokens(user);
 
     res.json(tokens);
     // res.redirect('/api/v1/me');
@@ -41,7 +41,7 @@ router.get(
   }),
   async (req, res) => {
     const user = await userController.getGoogleUser(req.user);
-    const tokens = await authController.generateTokens(user);
+    const tokens = await generateTokens(user);
 
     res.json(tokens);
   },
@@ -63,7 +63,7 @@ router.get(
   }),
   async (req, res) => {
     const user = await userController.getLinkedInUser(req.user);
-    const tokens = await authController.generateTokens(user);
+    const tokens = await generateTokens(user);
 
     res.json(tokens);
   },
