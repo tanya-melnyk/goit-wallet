@@ -23,9 +23,7 @@ async function createTransaction(payload, user, transactionType) {
       currencyRates,
     });
   } catch (err) {
-    console.error(err.message);
-
-    return res.status(500).send('Server error');
+    throw new Error(err);
   }
 }
 
@@ -70,7 +68,7 @@ async function getCurrencyRatesBy(date) {
       'EUR/UAH': eurToUahRate,
     };
   } catch (err) {
-    throw new Error(err.message);
+    throw new Error(err);
   }
 }
 

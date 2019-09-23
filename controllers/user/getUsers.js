@@ -49,7 +49,7 @@ module.exports = {
 
       return user;
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error(err);
     }
   },
 
@@ -74,7 +74,7 @@ module.exports = {
 
       return user;
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error(err);
     }
   },
 
@@ -99,7 +99,7 @@ module.exports = {
 
       return user;
     } catch (err) {
-      throw new Error(err.message);
+      throw new Error(err);
     }
   },
 

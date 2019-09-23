@@ -8,89 +8,78 @@ const { User, Transaction } = require('../../models');
 module.exports = {
   // @route    GET /transactions/
   // @desc     Get all transactions of current user
-  getUserTransactions(user, { offset = 0, limit = 10 }) {
-    return Transaction.findAll({
-      where: {
-        user_id: user.id,
-      },
-      offset,
-      limit,
-      include: [
-        {
-          model: User,
-          attributes: ['first_name', 'last_name'],
+  getUserTransactions(userId, { offset = 0, limit = 10, period }) {
+    offset = Number(offset);
+    limit = Number(limit);
+
+    if (!period) {
+      return Transaction.findAll({ where: { userId }, offset, limit });
+    }
+
+    const date = new Date();
+    const curDate = date.getDate();
+    const curWeekday = date.getDay() + 1;
+    const curHour = date.getHours();
+
+    switch (period) {
+      case 'one-week':
+        return getUserTransactionsForPeriod({
+          daysCount: 7,
+          hoursCount: 0,
+        });
+      case 'two-weeks':
+        return getUserTransactionsForPeriod({
+          daysCount: 14,
+          hoursCount: 0,
+        });
+      case 'one-month':
+        return getUserTransactionsForPeriod({
+          daysCount: 30,
+          hoursCount: 0,
+        });
+      case 'cur-week':
+        return getUserTransactionsForPeriod({
+          daysCount: curWeekday,
+          hoursCount: 24 - curHour,
+        });
+      case 'cur-month':
+        return getUserTransactionsForPeriod({
+          daysCount: curDate,
+          hoursCount: 24 - curHour,
+        });
+      default:
+        throw new Error('Incorrect period');
+    }
+
+    function getUserTransactionsForPeriod({ daysCount, hoursCount }) {
+      return Transaction.findAll({
+        where: {
+          userId,
+          createdAt: {
+            [Op.lt]: new Date(),
+            [Op.gte]: new Date(
+              new Date() -
+                daysCount * 24 * 60 * 60 * 1000 +
+                hoursCount * 60 * 60 * 1000,
+            ),
+          },
         },
-      ],
-    });
+        offset,
+        limit,
+      });
+    }
   },
 
   // @route    GET /transactions/cost/:id or /transactions/income/:id
   // @desc     Get transaction by ID
-  getTransactionById(id) {
+  getTransactionById(userId, transactionId, transactionType) {
     return Transaction.findOne({
       where: {
-        id,
+        userId,
+        id: transactionId,
+        transactionType,
       },
       include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
-    });
-  },
-
-  // @route    GET /transactions/week(/two-weeks/month)
-  // @desc     Get all transactions of current user for the last 7/14/30 days
-  getUserTransactionsForPeriod() {
-    const days = 7; // 14 or 30
-    return Transaction.findAll({
-      where: {
-        createdAt: {
-          [Op.lt]: new Date(),
-          [Op.gt]: new Date(new Date() - days * 24 * 60 * 60 * 1000),
-        },
-      },
-      // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
-    });
-  },
-
-  // @route    GET /transactions/cur-week
-  // @desc     Get all transactions of current user for the current week
-  getUserTransactionsForCurWeek() {
-    const date = new Date();
-    const curWeekday = date.getDay() + 1;
-    const curHour = date.getHours();
-
-    return Transaction.findAll({
-      where: {
-        createdAt: {
-          [Op.lt]: new Date(),
-          [Op.gte]: new Date(
-            new Date() -
-              curWeekday * 24 * 60 * 60 * 1000 +
-              (24 - curHour) * 60 * 60 * 1000,
-          ),
-        },
-      },
-      // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
-    });
-  },
-
-  // @route    GET /transactions/cur-month
-  // @desc     Get all transactions of current user for the current month
-  getUserTransactionsForCurMonth() {
-    const date = new Date();
-    const curDay = date.getDate();
-    const curHour = date.getHours();
-
-    return Transaction.findAll({
-      where: {
-        createdAt: {
-          [Op.lt]: new Date(),
-          [Op.gte]: new Date(
-            new Date() -
-              curDay * 24 * 60 * 60 * 1000 +
-              (24 - curHour) * 60 * 60 * 1000,
-          ),
-        },
-      },
-      // include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
     });
   },
 };

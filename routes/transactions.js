@@ -14,15 +14,15 @@ const {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const transactions = await getTransactions.getUserTransactions(
-      req.user,
+      req.user.id,
       req.query,
     );
 
+    console.log(transactions.length);
+
     res.status(200).json({ status: 'OK', transactions });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
@@ -33,9 +33,7 @@ router.post('/costs', authMiddleware, async (req, res) => {
 
     res.status(201).json({ status: 'OK', cost });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
@@ -46,16 +44,18 @@ router.post('/income', authMiddleware, async (req, res) => {
 
     res.status(201).json({ status: 'OK', income });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
-// GET request for cost transaction by its ID
-router.get('/costs/:id', async (req, res) => {
+// GET request for cost transaction of current user by transaction ID
+router.get('/costs/:id', authMiddleware, async (req, res) => {
   try {
-    const transaction = await getTransactions.getTransactionById(req.params.id);
+    const transaction = await getTransactions.getTransactionById(
+      req.user.id,
+      req.params.id,
+      'cost',
+    );
 
     if (!transaction) {
       return res
@@ -65,16 +65,18 @@ router.get('/costs/:id', async (req, res) => {
 
     res.status(200).json({ status: 'OK', transaction });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
-// GET request for income transaction by its ID
-router.get('/income/:id', async (req, res) => {
+// GET request for income transaction of current user by transaction ID
+router.get('/income/:id', authMiddleware, async (req, res) => {
   try {
-    const transaction = await getTransactions.getTransactionById(req.params.id);
+    const transaction = await getTransactions.getTransactionById(
+      req.user.id,
+      req.params.id,
+      'income',
+    );
 
     if (!transaction) {
       return res
@@ -84,9 +86,7 @@ router.get('/income/:id', async (req, res) => {
 
     res.status(200).json({ status: 'OK', transaction });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 

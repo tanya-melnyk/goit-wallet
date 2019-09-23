@@ -20,7 +20,7 @@ async function login({ email, password }) {
 
     return generateTokens(user);
   } catch (err) {
-    throw new Error(err.message);
+    throw new Error(err);
   }
 }
 

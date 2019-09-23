@@ -19,9 +19,7 @@ router.post('/', async (req, res) => {
 
     res.status(201).json(tokens);
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 

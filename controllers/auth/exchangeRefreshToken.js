@@ -25,7 +25,7 @@ async function exchangeRefreshToken(oldRefreshToken) {
 
     return generateTokens(user);
   } catch (err) {
-    throw new Error(err.message);
+    throw new Error(err);
   }
 }
 

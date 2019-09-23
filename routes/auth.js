@@ -26,9 +26,7 @@ router.get(
       res.json(tokens);
       // res.redirect('/api/v1/me');}
     } catch (err) {
-      console.error(err.message);
-
-      res.status(500).send('Server error');
+      return res.status(500).send({ Error: err.name, message: err.message });
     }
   },
 );
@@ -52,9 +50,7 @@ router.get(
 
       res.json(tokens);
     } catch (err) {
-      console.error(err.message);
-
-      res.status(500).send('Server error');
+      return res.status(500).send({ Error: err.name, message: err.message });
     }
   },
 );
@@ -80,9 +76,7 @@ router.get(
 
       res.json(tokens);
     } catch (err) {
-      console.error(err.message);
-
-      res.status(500).send('Server error');
+      return res.status(500).send({ Error: err.name, message: err.message });
     }
   },
 );

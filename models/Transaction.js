@@ -68,6 +68,22 @@ module.exports = (sequelize, DataTypes) => {
       },
       category: {
         type: DataTypes.STRING(50),
+        validate: {
+          isIn: [
+            [
+              'Обязательные расходы',
+              'Еда',
+              'Транспорт',
+              'Здоровье',
+              'Дом',
+              'Досуг',
+              'Образование',
+              'Прочее',
+              'Зарплата',
+              'Подарок',
+            ],
+          ],
+        },
       },
       currencyRates: {
         type: DataTypes.JSON,
