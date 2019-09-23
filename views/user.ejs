@@ -1,0 +1,16 @@
+<head>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<% if (users.length > 0) { %>
+<div>
+  <% for (let user of users) { %>
+  <article>
+    <span><%= user.firstName %></span>
+    <span><%= user.lastName %></span>
+  </article>
+  <% } %>
+</div>
+<% } else { %>
+<h1>No Users Found!</h1>
+<% } %>

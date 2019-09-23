@@ -19,10 +19,14 @@ const app = express();
 
 const PORT = config.PORT;
 
+// Templates
+app.set('view engine', 'ejs');
+
 // Asynchronous error handler for Express
 app.use(expressDomain());
 
 // Configuration
+app.disable('x-powered-by');
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: false, limit: '2mb' }));
 
@@ -38,7 +42,34 @@ app.use(passport.session());
 
 // Routes
 // main route return static
-app.get('/', express.static('public'));
+app.use(express.static('static'));
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
+app.get('/dashboard', (req, res) => {
+  const { Transaction } = require('./models');
+  Transaction.findAll({})
+    .then(result => {
+      res.status(200).render('transaction-list', { transactions: result });
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+});
+
+app.get('/profile', (req, res) => {
+  const { User } = require('./models');
+  User.findAll({})
+    .then(result => {
+      res.status(200).render('user', { users: result });
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+});
+
 app.use('/api/v1', routes);
 app.use('/*', notFound);
 
