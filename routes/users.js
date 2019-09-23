@@ -13,9 +13,7 @@ router.post('/', async (req, res) => {
 
     res.status(201).json({ status: 'OK', user: user.render() });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
@@ -32,9 +30,7 @@ router.get('/:userId', async (req, res) => {
 
     res.status(200).json({ status: 'OK', user: user.render() });
   } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send('Server error');
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 

@@ -3,6 +3,7 @@
 const router = require('express').Router();
 
 const authMiddleware = require('../middleware/authorization');
+// const { getUsers } = require('../controllers/user');
 const {
   createTransaction,
   getTransactions,
@@ -18,8 +19,6 @@ router.get('/', authMiddleware, async (req, res) => {
       req.query,
     );
 
-    console.log(transactions.length);
-
     res.status(200).json({ status: 'OK', transactions });
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
@@ -29,7 +28,9 @@ router.get('/', authMiddleware, async (req, res) => {
 // POST request for creating Cost Transaction
 router.post('/costs', authMiddleware, async (req, res) => {
   try {
-    const cost = await createTransaction(req.body, req.user, 'cost');
+    const cost = await createTransaction(req.body, req.user);
+    // const user = await getUsers.getUserById(req.user.id);
+    // const balance = user.currentBalance;
 
     res.status(201).json({ status: 'OK', cost });
   } catch (err) {
@@ -40,7 +41,9 @@ router.post('/costs', authMiddleware, async (req, res) => {
 // POST request for creating Income Transaction
 router.post('/income', authMiddleware, async (req, res) => {
   try {
-    const income = await createTransaction(req.body, req.user, 'income');
+    const income = await createTransaction(req.body, req.user);
+    // const user = await getUsers.getUserById(req.user.id);
+    // const balance = user.currentBalance;
 
     res.status(201).json({ status: 'OK', income });
   } catch (err) {

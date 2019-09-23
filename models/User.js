@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         email: this.email,
         defaultCurrency: this.defaultCurrency,
         transactions: this.Transactions,
+        currentBalance: this.currentBalance + ' ' + this.defaultCurrency,
       };
     }
   }
@@ -121,6 +122,12 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Default currency should be UAH, USD or EUR',
           },
         },
+      },
+      currentBalance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'current_balance',
+        defaultValue: 0,
       },
     },
     {

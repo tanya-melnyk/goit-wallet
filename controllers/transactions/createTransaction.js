@@ -3,23 +3,25 @@
 const request = require('request-promise');
 
 const { Transaction } = require('../../models');
+const { updateUser } = require('../user');
 
 // @route    POST /transactions/cost or /transactions/income
 // @desc     Create a cost or an income transaction for current user
-async function createTransaction(payload, user, transactionType) {
-  if (!payload.currency) {
-    payload.currency = user.defaultCurrency ? user.defaultCurrency : 'UAH';
+async function createTransaction(transaction, user) {
+  if (!transaction.currency) {
+    transaction.currency = user.defaultCurrency ? user.defaultCurrency : 'UAH';
   }
 
-  const date = payload.createdAt || new Date();
+  const date = transaction.createdAt || new Date();
 
   try {
     const currencyRates = await getCurrencyRatesBy(date);
 
+    await updateUser.updateBalance(transaction, user.id);
+
     return Transaction.create({
-      ...payload,
+      ...transaction,
       userId: user.id,
-      transactionType,
       currencyRates,
     });
   } catch (err) {

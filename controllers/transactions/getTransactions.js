@@ -3,10 +3,10 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-const { User, Transaction } = require('../../models');
+const { Transaction } = require('../../models');
 
 module.exports = {
-  // @route    GET /transactions/
+  // @route    GET /transactions
   // @desc     Get all transactions of current user
   getUserTransactions(userId, { offset = 0, limit = 10, period }) {
     offset = Number(offset);
@@ -79,7 +79,6 @@ module.exports = {
         id: transactionId,
         transactionType,
       },
-      include: [{ model: User, attributes: ['id', 'first_name', 'last_name'] }],
     });
   },
 };

@@ -15,7 +15,7 @@ router.patch('/', authMiddleware, async (req, res) => {
   try {
     await updateUser.changeUserPassword(userId, newPassword);
 
-    res.sendStatus(200);
+    res.status(200).send('Password has been changed');
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
   }
