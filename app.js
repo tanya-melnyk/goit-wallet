@@ -42,7 +42,7 @@ app.use(passport.session());
 
 // Routes
 // main route return static
-app.use(express.static('static'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.render('index');
