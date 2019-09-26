@@ -1,15 +1,12 @@
-<head>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-
 <% if (transactions.length > 0) { %>
 <div>
   <% for (let transaction of transactions) { %>
   <article>
-      <span><%= transaction.transactionType %></span>
-    <span><%= transaction.itemName %></span>
+    <h5><%= transaction.transactionType %>:</h5>
+    <span><%= transaction.itemName %> - </span>
     <span><%= transaction.amount %></span>
-    <!-- <span><%= transaction.category %></span> -->
+    <span><%= transaction.currency %></span>
+    <p>Date: <%= transaction.createdAt.toDateString() %></p>
   </article>
   <% } %>
 </div>

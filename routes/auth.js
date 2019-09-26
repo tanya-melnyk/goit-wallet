@@ -23,8 +23,8 @@ router.get(
       const user = await getUsers.getFacebookUser(req.user);
       const tokens = await generateTokens(user);
 
-      res.json(tokens);
-      // res.redirect('/api/v1/me');}
+      // res.json(tokens);
+      res.redirect('/api/v1/me?token=' + tokens.accessToken);
     } catch (err) {
       return res.status(500).send({ Error: err.name, message: err.message });
     }
@@ -48,7 +48,8 @@ router.get(
       const user = await getUsers.getGoogleUser(req.user);
       const tokens = await generateTokens(user);
 
-      res.json(tokens);
+      // res.json(tokens);
+      res.redirect('/api/v1/me?token=' + tokens.accessToken);
     } catch (err) {
       return res.status(500).send({ Error: err.name, message: err.message });
     }
@@ -74,7 +75,8 @@ router.get(
       const user = await getUsers.getLinkedInUser(req.user);
       const tokens = await generateTokens(user);
 
-      res.json(tokens);
+      // res.json(tokens);
+      res.redirect('/api/v1/me?token=' + tokens.accessToken);
     } catch (err) {
       return res.status(500).send({ Error: err.name, message: err.message });
     }

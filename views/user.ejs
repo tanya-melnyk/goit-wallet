@@ -1,13 +1,44 @@
-<head>
+<!-- <head>
   <link rel="stylesheet" href="css/styles.css" />
-</head>
+</head> -->
 
 <% if (users.length > 0) { %>
 <div>
   <% for (let user of users) { %>
   <article>
-    <span><%= user.firstName %></span>
-    <span><%= user.lastName %></span>
+    <h3 class="mb-4"><%= user.firstName %> <%= user.lastName %></h3>
+    <h4>My total balance:</h4>
+    <p>
+      <span><%= user.currentBalance %></<span>
+      <span><%= user.defaultCurrency %></<span>
+    </p>
+
+    <a href="/api/v1/balance?token=<%= user.token %>&period=cur-week" class="btn btn-primary mb-3">Current week balance</a>
+    <a href="/api/v1/balance?token=<%= user.token %>&period=cur-month" class="btn btn-primary mb-3">Current month balance</a>
+    <br>
+    <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-week" class="btn btn-secondary mb-2">Current week transactions</a>
+    <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-month" class="btn btn-secondary mb-2">Current month transactions</a>
+    <br>
+    <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-week" class="btn btn-secondary mb-2">Transactions for the last 7 days</a>
+    <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks" class="btn btn-secondary mb-2">Transactions for the last 14 days</a>
+    <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month" class="btn btn-secondary mb-2">Transactions for the last 30 days</a>
+    
+    <h4><a href="/api/v1/transactions?limit=100&token=<%= user.token %>">All transactions:</a></h4>
+    <div class="mb-3">
+      <% for (let trans of user.Transactions) { %>
+        <div>
+          <span><%= trans.dataValues.transaction_type %> : </span>
+          <span><%= trans.dataValues.item_name %> - </span>
+          <span><%= trans.amount %></span>
+          <span><%= trans.currency %></<span>
+        </div>
+      <% } %>
+    </div>
+
+    
+    <h3><a href="/api/v1/change-password?token=<%= user.token %>" class="btn btn-secondary mb-2">Change Password</a></h3>
+    
+    
   </article>
   <% } %>
 </div>

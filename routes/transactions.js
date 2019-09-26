@@ -19,7 +19,8 @@ router.get('/', authMiddleware, async (req, res) => {
       req.query,
     );
 
-    res.status(200).json({ status: 'OK', transactions });
+    res.status(200).render('transaction-list', { transactions });
+    // res.status(200).json({ status: 'OK', transactions });
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
   }

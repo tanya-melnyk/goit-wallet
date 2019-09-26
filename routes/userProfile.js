@@ -11,8 +11,9 @@ const { getUsers } = require('../controllers/user');
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const user = await getUsers.getUserById(req.user.id);
-
-    res.status(200).json({ status: 'OK', user: user.render() });
+    user.token = req.query.token;
+    // res.status(200).json({ status: 'OK', user: user.render() });
+    res.status(200).render('user', { users: [user] });
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
   }

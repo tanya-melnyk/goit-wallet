@@ -6,6 +6,7 @@ const authRouter = require('./auth');
 const balanceRouter = require('./balance');
 const changePasswordRouter = require('./changePassword');
 const loginRouter = require('./login');
+const registerRouter = require('./register');
 const transactionsRouter = require('./transactions');
 const updateTokenRouter = require('./updateToken');
 const userProfileRouter = require('./userProfile');
@@ -18,6 +19,7 @@ router
   .use('/login', loginRouter)
   .use('/me', userProfileRouter)
   .use('/refresh', updateTokenRouter)
+  .use('/register', registerRouter)
   .use('/transactions', transactionsRouter)
   .use('/users', usersRouter);
 

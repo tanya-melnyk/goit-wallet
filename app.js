@@ -6,6 +6,7 @@ require('./core/express-promise');
 const cors = require('cors');
 const express = require('express');
 const expressDomain = require('express-domain');
+var expressLayouts = require('express-ejs-layouts');
 const logger = require('morgan');
 
 const config = require('./config');
@@ -21,6 +22,7 @@ const PORT = config.PORT;
 
 // Templates
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 
 // Asynchronous error handler for Express
 app.use(expressDomain());
@@ -49,14 +51,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-  const { Transaction } = require('./models');
-  Transaction.findAll({})
-    .then(result => {
-      res.status(200).render('transaction-list', { transactions: result });
-    })
-    .catch(err => {
-      throw new Error(err);
-    });
+  res.render('dashboard', {
+    user: req.user,
+  });
 });
 
 app.get('/profile', (req, res) => {
