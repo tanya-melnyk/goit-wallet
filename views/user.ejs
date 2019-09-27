@@ -28,12 +28,12 @@
           <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks" class="btn btn-info mb-2">Transactions for the last 14 days</a>
           <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month" class="btn btn-info mb-2">Transactions for the last 30 days</a>
         </div>
-        <h4>10 last transactions:</h4>
+        <h4>Last transactions:</h4>
         <% if (user.Transactions.length) { %>
           <div class="mb-2">
             <table>
               <% const len = user.Transactions.length - 1; %>
-              <% for (let i = len; i > len - 10; i -= 1) { %>
+              <% for (let i = len; i > len - 10 && i >= 0; i -= 1) { %>
                 <% const trans = user.Transactions[i]; %>
                 <tr>
                   <th><%= trans.dataValues.transaction_type %>: </th>
