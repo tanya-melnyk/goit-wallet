@@ -33,17 +33,16 @@ async function createTransaction(transaction, user) {
 // но если ввел, то в каком формате нам это придет?
 // Как обрабатывать дату введенную пользователем?
 // Или мы тоже получим ее в виде объекта Date?
-async function getCurrencyRatesBy(date) {
+async function getCurrencyRatesBy(date = new Date()) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
   const dateStr = day + '.' + month + '.' + year;
 
-  const options = {
-    uri: `https://api.privatbank.ua/p24api/exchange_rates?json&date=${dateStr}`,
-    json: true,
-  };
+  const uri = `https://api.privatbank.ua/p24api/exchange_rates?json&date=${dateStr}`;
+
+  const options = { json: true, uri };
 
   try {
     const pbApiData = await request(options);
@@ -74,4 +73,4 @@ async function getCurrencyRatesBy(date) {
   }
 }
 
-module.exports = createTransaction;
+module.exports = { createTransaction, getCurrencyRatesBy };

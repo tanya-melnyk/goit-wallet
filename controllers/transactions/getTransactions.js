@@ -13,7 +13,12 @@ module.exports = {
     limit = Number(limit);
 
     if (!period) {
-      return Transaction.findAll({ where: { userId }, offset, limit });
+      return Transaction.findAll({
+        where: { userId },
+        offset,
+        limit,
+        order: [['createdAt', 'DESC']],
+      });
     }
 
     const date = new Date();
@@ -66,6 +71,7 @@ module.exports = {
         },
         offset,
         limit,
+        order: [['createdAt', 'DESC']],
       });
     }
   },

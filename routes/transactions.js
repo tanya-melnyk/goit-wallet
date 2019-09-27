@@ -26,10 +26,35 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// POST request for creating Cost Transaction
+// GET request for creating Cost Transaction
+router.get('/costs', authMiddleware, (req, res) => {
+  try {
+    const token = req.query.token;
+
+    res.status(200).render('add-cost', { token });
+  } catch (err) {
+    return res.status(500).send({ Error: err.name, message: err.message });
+  }
+});
+
+// GET request for creating Income Transaction
+router.get('/income', authMiddleware, (req, res) => {
+  try {
+    const token = req.query.token;
+
+    res.status(200).render('add-income', { token });
+  } catch (err) {
+    return res.status(500).send({ Error: err.name, message: err.message });
+  }
+});
+
+// POST request for saving Cost Transaction to DB
 router.post('/costs', authMiddleware, async (req, res) => {
   try {
-    const cost = await createTransaction(req.body, req.user);
+    const cost = await createTransaction(
+      { ...req.body, transactionType: 'cost' },
+      req.user,
+    );
     // const user = await getUsers.getUserById(req.user.id);
     // const balance = user.currentBalance;
 
@@ -39,10 +64,13 @@ router.post('/costs', authMiddleware, async (req, res) => {
   }
 });
 
-// POST request for creating Income Transaction
+// POST request for saving Income Transaction to DB
 router.post('/income', authMiddleware, async (req, res) => {
   try {
-    const income = await createTransaction(req.body, req.user);
+    const income = await createTransaction(
+      { ...req.body, transactionType: 'income' },
+      req.user,
+    );
     // const user = await getUsers.getUserById(req.user.id);
     // const balance = user.currentBalance;
 

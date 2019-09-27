@@ -9,9 +9,8 @@ const { createUser, deleteUserById, getUsers } = require('../controllers/user');
 // POST request for creating User
 router.post('/', async (req, res) => {
   try {
-    console.log(req.body);
     const user = await createUser(req.body);
-
+    
     res.status(201).render('dashboard', { user });
     // res.status(201).json({ status: 'OK', user: user.render() });
   } catch (err) {

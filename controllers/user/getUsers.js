@@ -16,7 +16,7 @@ module.exports = {
           attributes: [
             'id',
             'transaction_type',
-            'item_name',
+            'category',
             'amount',
             'currency',
           ],
