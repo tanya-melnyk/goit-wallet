@@ -1,0 +1,15 @@
+<% if (transactions.length > 0) { %>
+<div>
+  <% for (let transaction of transactions) { %>
+  <article>
+    <h5><%= transaction.transactionType %>:</h5>
+    <span><%= transaction.category %> - </span>
+    <span><%= transaction.amount %></span>
+    <span><%= transaction.currency %></span>
+    <p>Date: <%= transaction.createdAt.toDateString() %></p>
+  </article>
+  <% } %>
+</div>
+<% } else { %>
+<h1>No Transactions Found!</h1>
+<% } %>

@@ -9,8 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         id: this.id,
         userId: this.userId,
         transactionType: this.transactionType,
-        // user: this.User,
-        itemName: this.itemName,
         description: this.description,
         amount: this.amount + this.currency,
         category: this.category,
@@ -44,13 +42,8 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [['cost', 'income']],
         },
       },
-      itemName: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        field: 'item_name',
-      },
-      description: {
-        type: DataTypes.STRING(100),
+      comment: {
+        type: DataTypes.STRING,
       },
       amount: {
         type: DataTypes.INTEGER,
@@ -61,13 +54,35 @@ module.exports = (sequelize, DataTypes) => {
       },
       currency: {
         type: DataTypes.STRING(50),
-        defaultValue: 'UAH',
+        // defaultValue: 'UAH',
         allowNull: false,
         validate: {
-          isIn: [['UAH', 'USD', 'EURO']],
+          isIn: [['UAH', 'USD', 'EUR']],
         },
       },
-      category: DataTypes.STRING(50),
+      category: {
+        type: DataTypes.STRING(50),
+        validate: {
+          isIn: [
+            [
+              'Food',
+              'Transport',
+              'Health',
+              'House',
+              'Leasure',
+              'Education',
+              'Other',
+              'Salary',
+              'Present',
+            ],
+          ],
+        },
+      },
+      currencyRates: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        field: 'currency_rates',
+      },
     },
     {
       sequelize,

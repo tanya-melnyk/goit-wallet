@@ -2,47 +2,68 @@
 
 const router = require('express').Router();
 
-const userController = require('../controllers/user');
+const { createUser, deleteUserById, getUsers } = require('../controllers/user');
 
 // @route /users
 
 // POST request for creating User
 router.post('/', async (req, res) => {
-  const user = await userController.createUser(req.body);
-  res.status(201).json(user.render());
+  try {
+    const user = await createUser(req.body);
+    
+    res.status(201).render('dashboard', { user });
+    // res.status(201).json({ status: 'OK', user: user.render() });
+  } catch (err) {
+    // return res.status(500).send({ Error: err.name, message: err.message });
+    return res.status(500).redirect('/api/v1/login');
+  }
 });
 
 // GET request for User by ID
 router.get('/:userId', async (req, res) => {
-  const user = await userController.getUserById(req.params.userId);
+  try {
+    const user = await getUsers.getUserById(req.params.userId);
 
-  if (!user) {
-    return res
-      .status(404)
-      .json({ code: 'NOT_FOUND', message: 'User not Found' });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ code: 'NOT_FOUND', message: 'User not Found' });
+    }
+
+    res.status(200).json({ status: 'OK', user: user.render() });
+  } catch (err) {
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
-
-  res.status(200).json(user.render());
 });
 
 // GET request for all Users
 router.get('/', async (req, res) => {
-  const users = await userController.getAllUsers();
-  res.status(200).json(users);
+  try {
+    let users = await getUsers.getAllUsers(req.query);
+
+    users = users.map(user => user.render());
+
+    res.status(200).json(users);
+  } catch (err) {
+    return res.status(500).send({ Error: err.name, message: err.message });
+  }
 });
 
 // DELETE request for deleting User by ID
 router.delete('/:userId', async (req, res) => {
-  const user = await userController.getUserById(req.params.userId);
+  try {
+    const wasDeleted = await deleteUserById(req.params.userId);
 
-  if (!user) {
-    return res
-      .status(404)
-      .json({ code: 'NOT_FOUND', message: 'User not Found' });
+    if (!wasDeleted) {
+      return res
+        .status(404)
+        .json({ code: 'NOT_FOUND', message: 'User not Found' });
+    }
+
+    res.status(200).json(`User was deleted`);
+  } catch (err) {
+    return res.status(500).send({ Error: err.name, message: err.message });
   }
-
-  await userController.deleteUserById(req.params.userId);
-  res.status(200).json(`User ${user.firstName} ${user.lastName} was deleted`);
 });
 
 module.exports = router;

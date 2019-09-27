@@ -1,0 +1,65 @@
+<% if (users.length > 0) { %>
+  <div class="mt-4">
+  <% for (let user of users) { %>
+    <article>
+      <h3 class="mb-4">Hello <%= user.firstName %>!</h3>
+      <h2>Your Balance:</h2>
+      <p>
+        <span><strong>Total: </strong> <%= user.currentBalance %></<span>
+        <span><%= user.defaultCurrency || 'UAH' %></<span>
+      </p>
+      <div>
+        <a href="/api/v1/balance?token=<%= user.token %>&period=cur-week" class="btn btn-info mb-3">Current week balance</a>
+        <a href="/api/v1/balance?token=<%= user.token %>&period=cur-month" class="btn btn-info mb-3">Current month balance</a>
+      </div>
+      <div>
+        <h2>Transactions:</h2>
+        <div>
+          <a href="/api/v1/transactions/income?token=<%= user.token %>&period=cur-week" class="btn btn-success mb-2">Add income</a>
+          <a href="/api/v1/transactions/costs?token=<%= user.token %>&period=cur-month" class="btn btn-warning text-dark mb-2">Add cost</a>
+        </div>
+        <div>
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-week" class="btn btn-info mb-2">Current week transactions</a>
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-month" class="btn btn-info mb-2">Current month transactions</a>
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>" class="btn btn-info mb-2">All transactions</a>
+        </div>
+        <div class="mb-2">
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-week" class="btn btn-info mb-2">Transactions for the last 7 days</a>
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks" class="btn btn-info mb-2">Transactions for the last 14 days</a>
+          <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month" class="btn btn-info mb-2">Transactions for the last 30 days</a>
+        </div>
+        <h4>10 last transactions:</h4>
+        <% if (user.Transactions.length) { %>
+          <div class="mb-2">
+            <table>
+              <% const len = user.Transactions.length - 1; %>
+              <% for (let i = len; i > len - 10; i -= 1) { %>
+                <% const trans = user.Transactions[i]; %>
+                <tr>
+                  <th><%= trans.dataValues.transaction_type %>: </th>
+                  <td class="pl-3"><%= trans.dataValues.category %></td>
+                  <th class="pl-3"><%= trans.amount %> <%= trans.currency %></th>
+               </tr>
+              <% } %>
+            </table>
+          </div>
+        <% } %>
+      </div>
+      <h3>Today currency rates:</h3>
+      <div class="mb-2">
+        <table>
+          <% for (let key of Object.keys(currencyRates)) { %>        
+            <tr>
+              <th><%= key %>: </th>
+              <td class="pl-3"><%= currencyRates[key] %></td>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+      <h3><a href="/api/v1/change-password?token=<%= user.token %>" class="btn btn-secondary mb-2">Change Password</a></h3>
+    </article>
+  <% } %>
+  </div>
+<% } else { %>
+  <h1>No Users Found!</h1>
+<% } %>

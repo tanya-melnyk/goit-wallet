@@ -1,0 +1,104 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+        <i class="fas fa-user-plus"></i> Register
+      </h1>
+      <form action="/api/v1/users" method="POST">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            class="form-control"
+            placeholder="Enter First Name"
+            value="<%= typeof firstName != 'undefined' ? firstName : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            class="form-control"
+            placeholder="Enter Last Name"
+            value="<%= typeof lastName != 'undefined' ? lastName : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email"
+            value="<%= typeof email != 'undefined' ? email : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password"
+            value="<%= typeof password != 'undefined' ? password : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <p>Choose Default Currency</p>
+
+          <label for="defaultCurrency-uah"
+            >UAH<input
+              type="radio"
+              id="defaultCurrency-uah"
+              name="defaultCurrency"
+              class="form-control"
+              value="UAH"
+            />
+          </label>
+          <label for="defaultCurrency-usd"
+            >USD<input
+              type="radio"
+              id="defaultCurrency-usd"
+              name="defaultCurrency"
+              class="form-control"
+              value="USD"
+            />
+          </label>
+          <label for="defaultCurrency-eur"
+            >EUR<input
+              type="radio"
+              id="defaultCurrency-eur"
+              name="defaultCurrency"
+              class="form-control"
+              value="EUR"
+            />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="currentBalance">Current Balance</label>
+          <input
+            type="number"
+            id="currentBalance"
+            name="currentBalance"
+            class="form-control"
+            placeholder="Enter Current Balance"
+            value="<%= typeof currentBalance != 'undefined' ? currentBalance : 0 %>"
+          />
+        </div>
+        <button type="submit" class="btn btn-success btn-block">
+          Register
+        </button>
+      </form>
+      <p class="lead mt-4">
+        Have An Account? <a href="/api/v1/login">Login</a>
+      </p>
+    </div>
+  </div>
+</div>
