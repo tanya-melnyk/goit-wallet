@@ -1,0 +1,12 @@
+<div class="mb-5 mt-5">
+  <h2>
+    Your Balance for the last <% if (period === 'cur-week') { %> 7 <% } else {
+    %> 30 <% } %> days is <%= balance %>
+  </h2>
+</div>
+
+<div>
+  <a href="/api/v1/me?token=<%= token %>" class="btn btn-info mb-3"
+    >Back to Your Profile</a
+  >
+</div>

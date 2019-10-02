@@ -10,7 +10,7 @@ async function getUserBalance(user, period) {
     try {
       const curUser = await User.findOne({ where: { id: user.id } });
 
-      return curUser.currentBalance + ' ' + curUser.defaultCurrency;
+      return curUser.currentBalance + ' ' + (curUser.defaultCurrency || 'UAH');
     } catch (error) {
       throw new Error("Server error: couldn't get the balance");
     }
@@ -60,7 +60,7 @@ async function getUserBalance(user, period) {
         0,
       ) +
       ' ' +
-      user.defaultCurrency
+      (user.defaultCurrency || 'UAH')
     );
   }
 }

@@ -3,16 +3,18 @@
   <% for (let user of users) { %>
     <article>
       <h3 class="mb-4">Hello <%= user.firstName %>!</h3>
+
       <h2>Your Balance:</h2>
       <p>
         <span><strong>Total: </strong> <%= user.currentBalance %></<span>
         <span><%= user.defaultCurrency || 'UAH' %></<span>
       </p>
       <div>
-        <a href="/api/v1/balance?token=<%= user.token %>&period=cur-week" class="btn btn-info mb-3">Current week balance</a>
-        <a href="/api/v1/balance?token=<%= user.token %>&period=cur-month" class="btn btn-info mb-3">Current month balance</a>
+        <a href="/api/v1/balance?period=cur-week&token=<%= user.token %>" class="btn btn-info mb-3">Current week balance</a>
+        <a href="/api/v1/balance?period=cur-month&token=<%= user.token %>" class="btn btn-info mb-3">Current month balance</a>
       </div>
-      <div>
+
+      <div class="mb-4">
         <h2>Transactions:</h2>
         <div>
           <a href="/api/v1/transactions/income?token=<%= user.token %>&period=cur-week" class="btn btn-success mb-2">Add income</a>
@@ -28,8 +30,9 @@
           <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks" class="btn btn-info mb-2">Transactions for the last 14 days</a>
           <a href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month" class="btn btn-info mb-2">Transactions for the last 30 days</a>
         </div>
-        <h4>Last transactions:</h4>
+
         <% if (user.Transactions.length) { %>
+          <h4>Last transactions:</h4>
           <div class="mb-2">
             <table>
               <% const len = user.Transactions.length - 1; %>
@@ -45,18 +48,33 @@
           </div>
         <% } %>
       </div>
-      <h3>Today currency rates:</h3>
-      <div class="mb-2">
-        <table>
-          <% for (let key of Object.keys(currencyRates)) { %>        
-            <tr>
-              <th><%= key %>: </th>
-              <td class="pl-3"><%= currencyRates[key] %></td>
+
+      <% if (currencyRates) { %>
+        <h3>Today currency rates:</h3>
+        <div class="mb-4">
+          <table class="border">
+              <tr class="border">
+                  <th></th>
+                  <th class="pl-3">Buy</th>
+                  <th class="pl-3">Sale</th>
+                </tr>
+            <tr class="border">
+              <th>USD</th>
+              <td class="pl-3"><%= currencyRates.buyUSD %></td>
+              <td class="pl-3"><%= currencyRates.saleUSD %></td>
             </tr>
-          <% } %>
-        </table>
-      </div>
-      <h3><a href="/api/v1/change-password?token=<%= user.token %>" class="btn btn-secondary mb-2">Change Password</a></h3>
+            <tr>
+                <th>EUR</th>
+                <td class="pl-3"><%= currencyRates.buyEUR %></td>
+                <td class="pl-3"><%= currencyRates.saleEUR %></td>
+            </tr>
+          </table>
+        </div>
+      <% } %>
+
+      <div><a href="/api/v1/change-password?token=<%= user.token %>" class="btn btn-secondary mb-2">Change Password</a></div>
+
+      <div><a href="/" class="btn btn-info">Logout</a></div>
     </article>
   <% } %>
   </div>

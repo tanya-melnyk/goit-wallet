@@ -6,9 +6,9 @@ const config = require('../../config');
 const { RefreshToken } = require('../../models');
 
 async function generateTokens(user) {
-  // expires in 15 min
+  // expires in 30 min
   const accessToken = jwt.sign(
-    { ...user.render(), exp: Math.floor(Date.now() / 1000) + 15 * 60 },
+    { ...user.render(), exp: Math.floor(Date.now() / 1000) + 30 * 60 },
     config.jwtSecret,
   );
 
