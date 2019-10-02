@@ -125,6 +125,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultCurrency: {
         type: DataTypes.STRING(10),
         allowNull: true,
+        defaultValue: 'UAH',
         field: 'default_currency',
         validate: {
           isIn: {
@@ -133,10 +134,22 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      currentBalance: {
+      uahBalance: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'current_balance',
+        field: 'uah_balance',
+        defaultValue: 0,
+      },
+      usdBalance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'usd_balance',
+        defaultValue: 0,
+      },
+      eurBalance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'eur_balance',
         defaultValue: 0,
       },
     },

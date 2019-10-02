@@ -1,8 +1,8 @@
 module.exports = {
   development: {
-    username: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB_NAME,
+    username: process.env.MYSQL_USERNAME || 'VAULOT615Y',
+    password: process.env.MYSQL_PASSWORD || '2q7QRqpjM1',
+    database: process.env.MYSQL_DB_NAME || 'VAULOT615Y',
     host: process.env.HOSTNAME || 'remotemysql.com',
     port: process.env.MYSQL_PORT || 3306,
     dialect: 'mysql',
