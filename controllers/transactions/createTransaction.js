@@ -69,7 +69,7 @@ async function getCurrencyRates(date = new Date()) {
       'EUR/UAH': eurToUahRate,
     };
   } catch (err) {
-    throw new Error(err);
+    return {};
   }
 }
 
@@ -86,13 +86,13 @@ async function getCurrentCurrencyRates() {
     const eurData = exchangeRates.find(obj => obj.ccy === 'EUR');
 
     return {
-      'buyUSD': Number(usdData.buy).toFixed(2),
-      'saleUSD': Number(usdData.sale).toFixed(2),
-      'buyEUR': Number(eurData.buy).toFixed(2),
-      'saleEUR': Number(eurData.sale).toFixed(2),
+      buyUSD: Number(usdData.buy).toFixed(2),
+      saleUSD: Number(usdData.sale).toFixed(2),
+      buyEUR: Number(eurData.buy).toFixed(2),
+      saleEUR: Number(eurData.sale).toFixed(2),
     };
   } catch (err) {
-    throw new Error(err);
+    return null;
   }
 }
 

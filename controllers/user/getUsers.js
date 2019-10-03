@@ -19,6 +19,7 @@ module.exports = {
             'category',
             'amount',
             'currency',
+            'created_at',
           ],
         },
       ],

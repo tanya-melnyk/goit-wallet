@@ -9,7 +9,7 @@
         <th><%= transaction.transactionType %>:</th>
         <th class="pl-3">
           <% if (transaction.transactionType === 'cost') { %> - <% } %> <%=
-          transaction.amount %> <tr transaction.currency %>
+          transaction.amount %> <%= transaction.currency %>
         </th>
       </tr>
       <tr>

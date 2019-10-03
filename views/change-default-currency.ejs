@@ -1,0 +1,49 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+        <i class="fas fa-money-bill-alt"></i> Change Default Currency
+      </h1>
+      <form
+        action="/api/v1/change-default-currency?token=<%= user.token %>"
+        method="POST"
+      >
+        <div class="form-group">
+          <p>Choose Currency</p>
+
+          <label for="defaultCurrency-uah"
+            >UAH<input
+              type="radio"
+              id="defaultCurrency-uah"
+              name="defaultCurrency"
+              class="form-control"
+              value="UAH"
+            />
+          </label>
+          <label for="defaultCurrency-usd"
+            >USD<input
+              type="radio"
+              id="defaultCurrency-usd"
+              name="defaultCurrency"
+              class="form-control"
+              value="USD"
+            />
+          </label>
+          <label for="defaultCurrency-eur"
+            >EUR<input
+              type="radio"
+              id="defaultCurrency-eur"
+              name="defaultCurrency"
+              class="form-control"
+              value="EUR"
+            />
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

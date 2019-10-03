@@ -13,6 +13,7 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const user = await getUsers.getUserById(req.user.id);
     user.token = req.query.token;
+
     const currencyRates = await getCurrentCurrencyRates();
     // res.status(200).json({ status: 'OK', user: user.render() });
     res.status(200).render('user', { users: [user], currencyRates });

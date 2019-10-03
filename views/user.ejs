@@ -1,142 +1,180 @@
 <% if (users.length > 0) { %>
-<div class="mt-4">
+<div class="pt-4">
   <% for (let user of users) { %>
-  <article>
-    <h3 class="mb-4">Hello <%= user.firstName %>!</h3>
+  <h2 class="mb-4 ml-5 pl-5">
+    Hello <%= user.firstName %>!
+  </h2>
 
-    <div class="mb-4 d-flex align-items-center">
-      <h2 class="mr-5">Your Balance:</h2>
-      <table>
-        <tr>
-          <th class="text-right"><%= user.uahBalance %></th>
-          <th class="pl-1">UAH</th>
-        </tr>
-        <tr class="border-top">
-          <th class="text-right"><%= user.usdBalance %></th>
-          <th class="pl-1">USD</th>
-        </tr>
-        <tr class="border-top">
-          <th class="text-right"><%= user.eurBalance %></th>
-          <th class="pl-1">EUR</th>
-        </tr>
-      </table>
+  <div class="d-lg-flex align-items-stretch justify-content-around">
+    <div class="mb-3 mb-lg-0">
+      <article class="balance mb-4">
+        <div class="mb-4 d-flex align-items-center">
+          <h3 class="mr-5">Your Balance:</h3>
+          <table>
+            <tr>
+              <th class="text-right"><%= user.uahBalance %></th>
+              <th class="pl-1">UAH</th>
+            </tr>
+            <tr class="border-top">
+              <th class="text-right"><%= user.usdBalance %></th>
+              <th class="pl-1">USD</th>
+            </tr>
+            <tr class="border-top">
+              <th class="text-right"><%= user.eurBalance %></th>
+              <th class="pl-1">EUR</th>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <a
+            href="/api/v1/balance?period=cur-week&token=<%= user.token %>"
+            class="btn btn-info mb-2 mb-sm-0"
+            >Current week balance</a
+          >
+          <a
+            href="/api/v1/balance?period=cur-month&token=<%= user.token %>"
+            class="btn btn-info mb-2 mb-sm-0"
+            >Current month balance</a
+          >
+        </div>
+      </article>
+
+      <article class="transactions">
+        <h3>Add Transaction:</h3>
+        <div class="mb-4">
+          <a
+            href="/api/v1/transactions/income?token=<%= user.token %>&period=cur-week"
+            class="btn btn-success"
+            >Add income</a
+          >
+          <a
+            href="/api/v1/transactions/costs?token=<%= user.token %>&period=cur-month"
+            class="btn btn-warning text-dark"
+            >Add cost</a
+          >
+        </div>
+        <article class="transactions__list">
+          <div class="mb-3">
+            <% if (user.Transactions.length) { %>
+            <h3>Last transactions:</h3>
+            <div class="mb-2">
+              <table>
+                <% const len = user.Transactions.length - 1; %> <% for (let i =
+                len; i > len - 4 && i >= 0; i -= 1) { %> <% const trans =
+                user.Transactions[i]; %>
+                <tr>
+                  <th><%= trans.dataValues.transaction_type %>:</th>
+                  <th class="pl-3">
+                    <% if (trans.dataValues.transaction_type === 'cost') { %> -
+                    <% } %> <%= trans.amount %> <%= trans.currency %>
+                  </th>
+                </tr>
+                <tr>
+                  <td class="pb-2"><%= trans.dataValues.category %></td>
+                  <td class="pl-3 pb-2">
+                    <%= trans.dataValues.created_at.toDateString() %>
+                  </td>
+                </tr>
+                <% } %>
+              </table>
+            </div>
+            <% } %>
+          </div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>"
+            class="btn btn-info"
+            >All transactions</a
+          >
+        </article>
+      </article>
     </div>
-
-    <div>
-      <a
-        href="/api/v1/balance?period=cur-week&token=<%= user.token %>"
-        class="btn btn-info mb-3"
-        >Current week balance</a
-      >
-      <a
-        href="/api/v1/balance?period=cur-month&token=<%= user.token %>"
-        class="btn btn-info mb-3"
-        >Current month balance</a
-      >
-    </div>
-
-    <div class="mb-4">
-      <h2>Transactions:</h2>
-      <div>
-        <a
-          href="/api/v1/transactions/income?token=<%= user.token %>&period=cur-week"
-          class="btn btn-success mb-2"
-          >Add income</a
-        >
-        <a
-          href="/api/v1/transactions/costs?token=<%= user.token %>&period=cur-month"
-          class="btn btn-warning text-dark mb-2"
-          >Add cost</a
-        >
-      </div>
-      <div>
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-week"
-          class="btn btn-info mb-2"
-          >Current week transactions</a
-        >
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-month"
-          class="btn btn-info mb-2"
-          >Current month transactions</a
-        >
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>"
-          class="btn btn-info mb-2"
-          >All transactions</a
-        >
-      </div>
-      <div class="mb-2">
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-week"
-          class="btn btn-info mb-2"
-          >Transactions for the last 7 days</a
-        >
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks"
-          class="btn btn-info mb-2"
-          >Transactions for the last 14 days</a
-        >
-        <a
-          href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month"
-          class="btn btn-info mb-2"
-          >Transactions for the last 30 days</a
-        >
-      </div>
-
-      <% if (user.Transactions.length) { %>
-      <h4>Last transactions:</h4>
-      <div class="mb-2">
-        <table>
-          <% const len = user.Transactions.length - 1; %> <% for (let i = len; i
-          > len - 10 && i >= 0; i -= 1) { %> <% const trans =
-          user.Transactions[i]; %>
-          <tr>
-            <th><%= trans.dataValues.transaction_type %>:</th>
-            <td class="pl-3"><%= trans.dataValues.category %></td>
-            <th class="pl-3">
-              <% if (trans.dataValues.transaction_type === 'cost') { %> - <% }
-              %> <%= trans.amount %> <%= trans.currency %>
-            </th>
-          </tr>
-          <% } %>
-        </table>
-      </div>
+    <div class="d-flex flex-column justify-content-between">
+      <% if (currencyRates) { %>
+      <article class="currencies mb-4">
+        <h3 class="mb-4">Today currency rates:</h3>
+        <div>
+          <table class="border">
+            <tr class="border">
+              <th></th>
+              <th class="pl-3">Buy</th>
+              <th class="pl-3">Sale</th>
+            </tr>
+            <tr class="border">
+              <th>USD</th>
+              <td class="pl-3"><%= currencyRates.buyUSD %></td>
+              <td class="pl-3"><%= currencyRates.saleUSD %></td>
+            </tr>
+            <tr>
+              <th>EUR</th>
+              <td class="pl-3"><%= currencyRates.buyEUR %></td>
+              <td class="pl-3"><%= currencyRates.saleEUR %></td>
+            </tr>
+          </table>
+        </div>
+      </article>
       <% } %>
-    </div>
 
-    <% if (currencyRates) { %>
-    <h3>Today currency rates:</h3>
-    <div class="mb-4">
-      <table class="border">
-        <tr class="border">
-          <th></th>
-          <th class="pl-3">Buy</th>
-          <th class="pl-3">Sale</th>
-        </tr>
-        <tr class="border">
-          <th>USD</th>
-          <td class="pl-3"><%= currencyRates.buyUSD %></td>
-          <td class="pl-3"><%= currencyRates.saleUSD %></td>
-        </tr>
-        <tr>
-          <th>EUR</th>
-          <td class="pl-3"><%= currencyRates.buyEUR %></td>
-          <td class="pl-3"><%= currencyRates.saleEUR %></td>
-        </tr>
-      </table>
+      <article class="transactions__buttons mb-4">
+        <div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-week"
+            class="btn btn-info mb-2"
+            >Current week transactions</a
+          >
+        </div>
+        <div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=cur-month"
+            class="btn btn-info mb-4"
+            >Current month transactions</a
+          >
+        </div>
+        <div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-week"
+            class="btn btn-info mb-2"
+            >Transactions for the last 7 days</a
+          >
+        </div>
+        <div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=two-weeks"
+            class="btn btn-info mb-2"
+            >Transactions for the last 14 days</a
+          >
+        </div>
+        <div>
+          <a
+            href="/api/v1/transactions?limit=100&token=<%= user.token %>&period=one-month"
+            class="btn btn-info"
+            >Transactions for the last 30 days</a
+          >
+        </div>
+      </article>
+      <article class="settings">
+        <div class="mb-2">
+          <h5>Your default currency is: <%= user.defaultCurrency %></h5>
+          <a
+            href="/api/v1/change-default-currency?token=<%= user.token %>"
+            class="btn btn-secondary"
+            >Change Default Currency</a
+          >
+        </div>
+        <div class="mb-2">
+          <a
+            href="/api/v1/change-password?token=<%= user.token %>"
+            class="btn btn-secondary"
+            >Change Password</a
+          >
+        </div>
+        <div>
+          <a href="/" class="btn btn-primary">Logout</a>
+        </div>
+      </article>
     </div>
-    <% } %>
+  </div>
 
-    <div>
-      <a
-        href="/api/v1/change-password?token=<%= user.token %>"
-        class="btn btn-secondary"
-        >Change Password</a
-      >
-      <a href="/" class="btn btn-info">Logout</a>
-    </div>
-  </article>
   <% } %>
 </div>
 <% } else { %>

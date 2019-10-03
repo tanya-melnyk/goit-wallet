@@ -17,6 +17,7 @@
             class="form-control"
             placeholder="Enter Amount"
             value="<%= typeof amount != 'undefined' ? amount : 0 %>"
+            
           />
         </div>
         <div class="form-group">
@@ -29,6 +30,9 @@
               name="currency"
               class="form-control"
               value="UAH"
+              <% if (defaultCurrency === "UAH") { %>
+                checked
+              <% } %>
             />
           </label>
           <label for="currency-usd"
@@ -38,6 +42,9 @@
               name="currency"
               class="form-control"
               value="USD"
+              <% if (defaultCurrency === "USD") { %>
+                checked
+              <% } %>
             />
           </label>
           <label for="currency-eur"
@@ -47,6 +54,9 @@
               name="currency"
               class="form-control"
               value="EUR"
+              <% if (defaultCurrency === "EUR") { %>
+                checked
+              <% } %>
             />
           </label>
         </div>

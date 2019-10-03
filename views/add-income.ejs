@@ -29,6 +29,9 @@
               name="currency"
               class="form-control"
               value="UAH"
+              <% if (defaultCurrency === "UAH") { %>
+                checked
+              <% } %>
             />
           </label>
           <label for="currency-usd"
@@ -38,6 +41,9 @@
               name="currency"
               class="form-control"
               value="USD"
+              <% if (defaultCurrency === "USD") { %>
+                checked
+              <% } %>
             />
           </label>
           <label for="currency-eur"
@@ -47,6 +53,9 @@
               name="currency"
               class="form-control"
               value="EUR"
+              <% if (defaultCurrency === "EUR") { %>
+                checked
+              <% } %>
             />
           </label>
         </div>

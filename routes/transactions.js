@@ -3,7 +3,7 @@
 const router = require('express').Router();
 
 const authMiddleware = require('../middleware/authorization');
-// const { getUsers } = require('../controllers/user');
+const { getUsers } = require('../controllers/user');
 const {
   createTransaction,
   getTransactions,
@@ -29,22 +29,26 @@ router.get('/', authMiddleware, async (req, res) => {
 });
 
 // GET request for creating Cost Transaction
-router.get('/costs', authMiddleware, (req, res) => {
+router.get('/costs', authMiddleware, async (req, res) => {
   try {
     const token = req.query.token;
+    const user = await getUsers.getUserById(req.user.id);
+    const defaultCurrency = user.defaultCurrency;
 
-    res.status(200).render('add-cost', { token });
+    res.status(200).render('add-cost', { token, defaultCurrency });
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 
 // GET request for creating Income Transaction
-router.get('/income', authMiddleware, (req, res) => {
+router.get('/income', authMiddleware, async (req, res) => {
   try {
     const token = req.query.token;
+    const user = await getUsers.getUserById(req.user.id);
+    const defaultCurrency = user.defaultCurrency;
 
-    res.status(200).render('add-income', { token });
+    res.status(200).render('add-income', { token, defaultCurrency });
   } catch (err) {
     return res.status(500).send({ Error: err.name, message: err.message });
   }

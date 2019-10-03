@@ -4,10 +4,21 @@ const { User } = require('../../models');
 
 module.exports = {
   // @route    PATCH /change-password
-  // @desc     Change current user password
+  // @desc     Change user password
   changeUserPassword(userId, newPassword) {
     return User.update(
       { password: newPassword },
+      {
+        where: { id: userId },
+      },
+    );
+  },
+
+  // @route    PATCH /change-default-currency
+  // @desc     Change user default currency
+  changeDefaultCurrency(userId, newDefaultCurrency) {
+    return User.update(
+      { defaultCurrency: newDefaultCurrency },
       {
         where: { id: userId },
       },
