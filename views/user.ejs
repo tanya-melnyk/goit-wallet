@@ -154,7 +154,9 @@
       </article>
       <article class="settings">
         <div class="mb-2">
+          <% if (user.defaultCurrency) { %>
           <h5>Your default currency is: <%= user.defaultCurrency %></h5>
+          <% } %>
           <a
             href="/api/v1/change-default-currency?token=<%= user.token %>"
             class="btn btn-secondary"
