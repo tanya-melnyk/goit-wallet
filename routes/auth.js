@@ -16,7 +16,7 @@ router.get('/facebook', passport.authenticate('facebook'));
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect: '/api/v1/login',
+    failureRedirect: '/',
   }),
   async (req, res) => {
     try {
@@ -41,7 +41,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/api/v1/login',
+    failureRedirect: '/',
   }),
   async (req, res) => {
     try {
@@ -68,7 +68,7 @@ router.get(
 router.get(
   '/linkedin/callback',
   passport.authenticate('linkedin', {
-    failureRedirect: '/api/v1/login',
+    failureRedirect: '/',
   }),
   async (req, res) => {
     try {

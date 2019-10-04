@@ -34,7 +34,7 @@ module.exports = {
     const [givenName, familyName] = facebookUser.displayName.split(' ');
 
     try {
-      const user = await User.findOne({
+      let user = await User.findOne({
         where: {
           facebookId: facebookUser.id,
         },
@@ -58,7 +58,7 @@ module.exports = {
   // @desc     Get user by email from Google profile
   async getGoogleUser(googleUser) {
     try {
-      const user = await User.findOne({
+      let user = await User.findOne({
         where: {
           email: googleUser.emails[0].value,
         },
@@ -83,7 +83,7 @@ module.exports = {
   // @desc     Get user by email from Linkedin profile
   async getLinkedInUser(linkedinUser) {
     try {
-      const user = await User.findOne({
+      let user = await User.findOne({
         where: {
           email: linkedinUser.emails[0].value,
         },
