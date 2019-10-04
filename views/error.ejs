@@ -1,0 +1,18 @@
+<% if (errors) { %>
+<div class="mt-5 pt-4">
+  <h2>Errors:</h2>
+  <% for (const error of errors) { %>
+    <p><%= error %></p>
+  <% } %>
+</div>
+<% } %> 
+
+<% if (goBackUrl) { %>
+<div class="fixed-top mt-4 ml-5 pl-3">
+  <a href="<%= goBackUrl %>" class="btn btn-info mb-3">Go Back</a>
+</div>
+<% } else { %>
+<div class="fixed-top mt-4 ml-5 pl-3">
+  <a href="/" class="btn btn-info mb-3">Home Page</a>
+</div>
+<% } %>

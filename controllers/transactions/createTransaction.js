@@ -15,7 +15,7 @@ async function createTransaction(transaction, user) {
   const date = transaction.createdAt || new Date();
 
   try {
-    const currencyRates = await getCurrencyRatesBy(date);
+    const currencyRates = await getCurrencyRates(date);
 
     await updateUser.updateBalance(transaction, user.id);
 
@@ -33,7 +33,7 @@ async function createTransaction(transaction, user) {
 // но если ввел, то в каком формате нам это придет?
 // Как обрабатывать дату введенную пользователем?
 // Или мы тоже получим ее в виде объекта Date?
-async function getCurrencyRatesBy(date = new Date()) {
+async function getCurrencyRates(date = new Date()) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
@@ -69,8 +69,31 @@ async function getCurrencyRatesBy(date = new Date()) {
       'EUR/UAH': eurToUahRate,
     };
   } catch (err) {
-    throw new Error(err);
+    return {};
   }
 }
 
-module.exports = { createTransaction, getCurrencyRatesBy };
+async function getCurrentCurrencyRates() {
+  const uri =
+    'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
+
+  const options = { json: true, uri };
+
+  try {
+    const exchangeRates = await request(options);
+
+    const usdData = exchangeRates.find(obj => obj.ccy === 'USD');
+    const eurData = exchangeRates.find(obj => obj.ccy === 'EUR');
+
+    return {
+      buyUSD: Number(usdData.buy).toFixed(2),
+      saleUSD: Number(usdData.sale).toFixed(2),
+      buyEUR: Number(eurData.buy).toFixed(2),
+      saleEUR: Number(eurData.sale).toFixed(2),
+    };
+  } catch (err) {
+    return null;
+  }
+}
+
+module.exports = { createTransaction, getCurrentCurrencyRates };

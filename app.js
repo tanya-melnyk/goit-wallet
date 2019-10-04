@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 require('./core/express-promise');
+require('./services/cronGetCurrencyRates');
 
 const cors = require('cors');
 const express = require('express');

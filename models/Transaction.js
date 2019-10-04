@@ -49,7 +49,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          min: 1,
+          min: {
+            args: 1,
+            msg: 'Transaction amount should be more than 0',
+          },
         },
       },
       currency: {

@@ -14,8 +14,13 @@ router.post('/', async (req, res) => {
     res.status(201).render('dashboard', { user });
     // res.status(201).json({ status: 'OK', user: user.render() });
   } catch (err) {
-    return res.status(500).send({ Error: err.name, message: err.message });
-    // return res.status(500).redirect('/api/v1/login');
+    const errors = err.message.split(',\n');
+
+    return res.status(500).render('error', {
+      errors,
+      goBackUrl: '/api/v1/register',
+    });
+    // return res.status(500).send({ Error: err.name, message: err.message });
   }
 });
 

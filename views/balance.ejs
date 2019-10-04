@@ -1,0 +1,26 @@
+<div class="mb-5 mt-5 ml-5">
+  <h3 class="mb-3">
+    Your Balance for the last <% if (period === 'cur-week') { %> 7 <% } else {
+    %> 30 <% } %> days is:
+  </h3>
+  <table>
+    <tr>
+      <th class="text-right"><%= balance.uah %></th>
+      <th class="pl-1">UAH</th>
+    </tr>
+    <tr class="border-top">
+      <th class="text-right"><%= balance.usd %></th>
+      <th class="pl-1">USD</th>
+    </tr>
+    <tr class="border-top">
+      <th class="text-right"><%= balance.eur %></th>
+      <th class="pl-1">EUR</th>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <a href="/api/v1/me?token=<%= token %>" class="btn btn-info ml-5"
+    >Back to Your Profile</a
+  >
+</div>

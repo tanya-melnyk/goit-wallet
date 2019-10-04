@@ -8,9 +8,12 @@ const { getBalance } = require('../controllers/transactions');
 // GET request for user's balance
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const balance = await getBalance(req.user, req.query.period);
+    const period = req.query.period;
+    const balance = await getBalance(req.user, period);
 
-    res.status(200).json({ status: 'OK', balance });
+    res
+      .status(200)
+      .render('balance', { balance, period, token: req.query.token });
   } catch (err) {
     res.status(500).send({ Error: err.name, message: err.message });
   }

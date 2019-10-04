@@ -1,15 +1,31 @@
 <% if (transactions.length > 0) { %>
-<div>
-  <% for (let transaction of transactions) { %>
+<div class="mt-5 pt-4">
+  <h2>Transactions list:</h2>
+
   <article>
-    <h5><%= transaction.transactionType %>:</h5>
-    <span><%= transaction.category %> - </span>
-    <span><%= transaction.amount %></span>
-    <span><%= transaction.currency %></span>
-    <p>Date: <%= transaction.createdAt.toDateString() %></p>
+    <table>
+      <% for (let transaction of transactions) { %>
+      <tr>
+        <th><%= transaction.transactionType %>:</th>
+        <th class="pl-3">
+          <% if (transaction.transactionType === 'cost') { %> - <% } %> <%=
+          transaction.amount %> <%= transaction.currency %>
+        </th>
+      </tr>
+      <tr>
+        <td class="pb-2"><%= transaction.category %></td>
+        <td class="pl-3 pb-2"><%= transaction.createdAt.toDateString() %></td>
+      </tr>
+      <% } %>
+    </table>
   </article>
-  <% } %>
 </div>
 <% } else { %>
-<h1>No Transactions Found!</h1>
+<h1 class="mt-5 pt-5">No Transactions Found!</h1>
 <% } %>
+
+<div class="fixed-top mt-4 ml-5 pl-3">
+  <a href="/api/v1/me?token=<%= token %>" class="btn btn-info mb-3"
+    >Back to Your Profile</a
+  >
+</div>

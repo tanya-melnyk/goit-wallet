@@ -10,7 +10,11 @@ async function getUserBalance(user, period) {
     try {
       const curUser = await User.findOne({ where: { id: user.id } });
 
-      return curUser.currentBalance + ' ' + curUser.defaultCurrency;
+      return {
+        uah: curUser.uahBalance,
+        usd: curUser.usdBalance,
+        eur: curUser.eurBalance,
+      };
     } catch (error) {
       throw new Error("Server error: couldn't get the balance");
     }
@@ -51,17 +55,29 @@ async function getUserBalance(user, period) {
       },
     });
 
-    return (
-      transactions.reduce(
-        (balance, transaction) =>
-          transaction.transactionType === 'cost'
-            ? balance - transaction.amount
-            : balance + transaction.amount,
-        0,
-      ) +
-      ' ' +
-      user.defaultCurrency
-    );
+    console.log(transactions);
+
+    const uahBalance = getBalanceByCurrency('UAH');
+    const usdBalance = getBalanceByCurrency('USD');
+    const eurBalance = getBalanceByCurrency('EUR');
+
+    function getBalanceByCurrency(currency) {
+      return transactions
+        .filter(transaction => transaction.currency === currency)
+        .reduce(
+          (balance, transaction) =>
+            transaction.transactionType === 'cost'
+              ? balance - transaction.amount
+              : balance + transaction.amount,
+          0,
+        );
+    }
+
+    return {
+      uah: uahBalance,
+      usd: usdBalance,
+      eur: eurBalance,
+    };
   }
 }
 

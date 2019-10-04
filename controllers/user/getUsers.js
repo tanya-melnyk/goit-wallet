@@ -19,6 +19,7 @@ module.exports = {
             'category',
             'amount',
             'currency',
+            'created_at',
           ],
         },
       ],
@@ -105,7 +106,7 @@ module.exports = {
 
   // @route    GET /users
   // @desc     Get all users
-  getAllUsers({ offset = 0, limit = 10 }) {
+  getAllUsers({ offset = 0, limit = 100 }) {
     return User.findAll({ offset, limit });
   },
 };

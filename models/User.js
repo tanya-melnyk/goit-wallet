@@ -32,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         field: 'first_name',
         allowNull: false,
         validate: {
-          len: [2, 50],
+          len: {
+            args: [2, 50],
+            msg: 'First name must be 2 or more characters long',
+          },
         },
       },
       lastName: {
@@ -40,7 +43,10 @@ module.exports = (sequelize, DataTypes) => {
         field: 'last_name',
         allowNull: false,
         validate: {
-          len: [2, 50],
+          len: {
+            args: [2, 50],
+            msg: 'Last name must be 2 or more characters long',
+          },
         },
       },
       email: {
@@ -55,11 +61,14 @@ module.exports = (sequelize, DataTypes) => {
               !this.googleId &&
               !this.facebookId
             ) {
-              throw new Error('Email is required for local users');
+              throw new Error('Email is required');
             }
           },
 
-          isEmail: true,
+          isEmail: {
+            args: true,
+            msg: 'Email is invalid',
+          },
         },
       },
       facebookId: {
@@ -88,18 +97,19 @@ module.exports = (sequelize, DataTypes) => {
               !this.googleId &&
               !this.facebookId
             ) {
-              throw new Error('Password is required for local users');
+              throw new Error('Password is required');
             }
           },
 
           len: {
             args: [6, 100],
-            msg: 'Password must be 6 or more chars long',
+            msg: 'Password must be 6 or more characters long',
           },
 
           is: {
             args: /(?=.*[0-9])(?=.*[A-Z])/g,
-            msg: 'Password must include at least 1 number and 1 capital letter',
+            msg:
+              'Password must contain only latin alphabet, at least 1 number and 1 capital letter',
           },
         },
         set(val) {
@@ -115,6 +125,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultCurrency: {
         type: DataTypes.STRING(10),
         allowNull: true,
+        defaultValue: 'UAH',
         field: 'default_currency',
         validate: {
           isIn: {
@@ -123,10 +134,22 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      currentBalance: {
+      uahBalance: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'current_balance',
+        field: 'uah_balance',
+        defaultValue: 0,
+      },
+      usdBalance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'usd_balance',
+        defaultValue: 0,
+      },
+      eurBalance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'eur_balance',
         defaultValue: 0,
       },
     },
