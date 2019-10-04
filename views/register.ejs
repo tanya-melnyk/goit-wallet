@@ -1,6 +1,6 @@
 <div class="row mt-5">
   <div class="col-md-6 m-auto">
-    <div class="card card-body">
+    <div class="card card-body mb-5">
       <h1 class="text-center mb-3">
         <i class="fas fa-user-plus"></i> Register
       </h1>
@@ -83,17 +83,40 @@
             />
           </label>
         </div>
-
-        <div class="form-group">
-          <label for="currentBalance">Current Balance</label>
-          <input
-            type="number"
-            id="currentBalance"
-            name="currentBalance"
-            class="form-control"
-            placeholder="Enter Current Balance"
-            value="<%= typeof currentBalance != 'undefined' ? currentBalance : 0 %>"
-          />
+        <div class="d-flex">
+          <div class="form-group mr-2">
+            <label for="uahBalance">UAH Balance</label>
+            <input
+              type="number"
+              id="uahBalance"
+              name="uahBalance"
+              class="form-control"
+              placeholder="Enter UAH Balance"
+              value="<%= typeof uahBalance != 'undefined' ? uahBalance : 0 %>"
+            />
+          </div>
+          <div class="form-group mr-2">
+            <label for="usdBalance">USD Balance</label>
+            <input
+              type="number"
+              id="usdBalance"
+              name="usdBalance"
+              class="form-control"
+              placeholder="Enter USD Balance"
+              value="<%= typeof usdBalance != 'undefined' ? usdBalance : 0 %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="eurBalance">EUR Balance</label>
+            <input
+              type="number"
+              id="eurBalance"
+              name="eurBalance"
+              class="form-control"
+              placeholder="Enter EUR Balance"
+              value="<%= typeof eurBalance != 'undefined' ? eurBalance : 0 %>"
+            />
+          </div>
         </div>
         <button type="submit" class="btn btn-success btn-block">
           Register
